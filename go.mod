@@ -43,7 +43,7 @@ require (
 	github.com/tidwall/buntdb v1.1.2
 	github.com/valyala/fasthttp v1.2.0
 	github.com/wesovilabs/beyond v1.0.1
-	go.mongodb.org/mongo-driver v1.3.2
+	go.mongodb.org/mongo-driver v1.4.0
 	go.uber.org/zap v1.14.1
 	gocloud.dev v0.19.0
 	gocloud.dev/pubsub/kafkapubsub v0.19.0
