@@ -6,6 +6,7 @@ import (
 	gilog "github.com/b2wdigital/goignite/log"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 var (
@@ -42,6 +43,9 @@ func setDefaultMiddlewares(ctx context.Context, instance *chi.Mux) {
 	if GetMiddlewareLoggerEnabled() {
 		instance.Use(NewLogMiddleware)
 	}
+	if GetMiddlewareMetricEnabled() {
+		instance.Use(NewMetricMiddleware)
+	}
 }
 
 func setDefaultRouters(ctx context.Context, instance *chi.Mux) {
@@ -62,4 +66,14 @@ func setDefaultRouters(ctx context.Context, instance *chi.Mux) {
 	healthHandler := NewHealthHandler()
 
 	instance.Get(healthRoute, healthHandler.Get(ctx))
+
+	if GetMiddlewareMetricEnabled() {
+
+		metricRoute := GetMetricRoute()
+
+		l.Infof("configuring metric router on %s", metricRoute)
+
+		instance.Handle(metricRoute, promhttp.Handler())
+	}
+
 }

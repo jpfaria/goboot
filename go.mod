@@ -16,7 +16,7 @@ require (
 	github.com/go-resty/resty/v2 v2.3.0
 	github.com/gocql/gocql v0.0.0-20200410100145-b454769479c6
 	github.com/godror/godror v0.16.1
-	github.com/golang/protobuf v1.4.0
+	github.com/golang/protobuf v1.4.2
 	github.com/hashicorp/go-memdb v1.2.0
 	github.com/hiko1129/echo-pprof v1.0.1
 	github.com/jlaffaye/ftp v0.0.0-20200331144919-d4caf6ffcab8
@@ -34,8 +34,8 @@ require (
 	github.com/newrelic/go-agent/v3/integrations/nrmongo v1.0.0
 	github.com/newrelic/go-agent/v3/integrations/nrnats v1.1.0
 	github.com/newrelic/go-agent/v3/integrations/nrredis-v7 v1.0.0
-	github.com/prometheus/client_golang v1.5.1
-	github.com/prometheus/common v0.9.1
+	github.com/prometheus/client_golang v1.7.1
+	github.com/prometheus/common v0.10.0
 	github.com/ravernkoh/cwlogsfmt v0.0.0-20180121032441-917bad983b4c
 	github.com/rs/zerolog v1.18.0
 	github.com/satori/go.uuid v1.2.0
