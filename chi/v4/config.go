@@ -15,6 +15,7 @@ const (
 	MiddlewareRequestIDEnabled = "gi.chi.middleware.requestid.enabled"
 	MiddlewareNewTID           = "gi.chi.middleware.newtid.enabled"
 	MiddlewareNewRelic         = "gi.chi.middleware.newrelic.enabled"
+	NewRelicWebResponseEnabled = "gi.chi.middleware.newrelic.webResponseEnabled"
 )
 
 func init() {
@@ -29,6 +30,7 @@ func init() {
 	giconfig.Add(MiddlewareRequestIDEnabled, true, "enable/disable request id middleware")
 	giconfig.Add(MiddlewareNewTID, true, "enable/disable new tid middleware")
 	giconfig.Add(MiddlewareNewRelic, false, "enable/disable new relic middleware")
+	giconfig.Add(NewRelicWebResponseEnabled, true, "enable/disable WebResponse from middleware")
 }
 
 func GetStatusRoute() string {
@@ -58,4 +60,8 @@ func GetMiddlewareNewTidEnabled() bool {
 
 func GetMiddlewareNewRelicEnabled() bool {
 	return giconfig.Bool(MiddlewareNewRelic)
+}
+
+func GetNewRelicWebResponseEnabled() bool {
+	return giconfig.Bool(NewRelicWebResponseEnabled)
 }

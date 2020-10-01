@@ -127,7 +127,10 @@ func NewNewRelicMiddleware(next http.Handler) http.Handler {
 		defer txn.End()
 
 		txn.SetWebRequestHTTP(r)
-		w = txn.SetWebResponse(w)
+
+		if GetNewRelicWebResponseEnabled() {
+			w = txn.SetWebResponse(w)
+		}
 
 		txn.AddAttribute("request.url", fmt.Sprintf("http://%s%s", r.Host, url))
 
