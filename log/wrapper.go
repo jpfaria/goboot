@@ -24,6 +24,14 @@ func Info(args ...interface{}) {
 	l.Info(args...)
 }
 
+func Printf(format string, args ...interface{}) {
+	l.Printf(format, args...)
+}
+
+func Print(args ...interface{}) {
+	l.Print(args...)
+}
+
 func Warnf(format string, args ...interface{}) {
 	l.Warnf(format, args...)
 }

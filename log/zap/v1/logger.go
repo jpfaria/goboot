@@ -133,6 +133,10 @@ func (l *zapLogger) Info(args ...interface{}) {
 	l.sugaredLogger.Info(args...)
 }
 
+func (l *zapLogger) Print(args ...interface{}) {
+	l.sugaredLogger.Info(args...)
+}
+
 func (l *zapLogger) Warn(args ...interface{}) {
 	l.sugaredLogger.Warn(args...)
 }
@@ -171,6 +175,10 @@ func (l *zapLogger) Debugf(format string, args ...interface{}) {
 }
 
 func (l *zapLogger) Infof(format string, args ...interface{}) {
+	l.sugaredLogger.Infof(format, args...)
+}
+
+func (l *zapLogger) Printf(format string, args ...interface{}) {
 	l.sugaredLogger.Infof(format, args...)
 }
 

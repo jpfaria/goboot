@@ -19,6 +19,10 @@ type Logger interface {
 
 	Info(args ...interface{})
 
+	Printf(format string, args ...interface{})
+
+	Print(args ...interface{})
+
 	Warnf(format string, args ...interface{})
 
 	Warn(args ...interface{})

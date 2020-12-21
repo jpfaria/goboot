@@ -173,6 +173,10 @@ func (l *logger) Info(args ...interface{}) {
 	l.logger.Info(args...)
 }
 
+func (l *logger) Print(args ...interface{}) {
+	l.logger.Print(args...)
+}
+
 func (l *logger) Warn(args ...interface{}) {
 	l.logger.Warn(args...)
 }
@@ -205,6 +209,10 @@ func (l *logger) Debugf(format string, args ...interface{}) {
 
 func (l *logger) Infof(format string, args ...interface{}) {
 	l.logger.Infof(format, args...)
+}
+
+func (l *logger) Printf(format string, args ...interface{}) {
+	l.logger.Printf(format, args...)
 }
 
 func (l *logger) Warnf(format string, args ...interface{}) {
@@ -278,6 +286,10 @@ func (l *logEntry) Info(args ...interface{}) {
 	l.entry.Info(args...)
 }
 
+func (l *logEntry) Print(args ...interface{}) {
+	l.entry.Print(args...)
+}
+
 func (l *logEntry) Warn(args ...interface{}) {
 	l.entry.Warn(args...)
 }
@@ -314,6 +326,10 @@ func (l *logEntry) Debugf(format string, args ...interface{}) {
 
 func (l *logEntry) Infof(format string, args ...interface{}) {
 	l.entry.Infof(format, args...)
+}
+
+func (l *logEntry) Printf(format string, args ...interface{}) {
+	l.entry.Printf(format, args...)
 }
 
 func (l *logEntry) Warnf(format string, args ...interface{}) {

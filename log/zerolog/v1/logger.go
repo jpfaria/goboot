@@ -130,6 +130,14 @@ func (l *logger) Infof(format string, args ...interface{}) {
 	l.logger.Info().Msgf(format, args...)
 }
 
+func (l *logger) Print(args ...interface{}) {
+	l.logger.Print(args...)
+}
+
+func (l *logger) Printf(format string, args ...interface{}) {
+	l.logger.Printf(format, args...)
+}
+
 func (l *logger) Info(args ...interface{}) {
 	format := bytes.NewBufferString("")
 	for _ = range args {
