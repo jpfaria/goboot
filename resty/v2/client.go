@@ -124,7 +124,7 @@ func NewClient(ctx context.Context, options *Options) *resty.Client {
 		}
 
 		if options.Retry.MaxWaitTime > 0 {
-			client.SetRetryMaxWaitTime(options.Retry.WaitTime)
+			client.SetRetryMaxWaitTime(options.Retry.MaxWaitTime)
 		}
 	}
 
