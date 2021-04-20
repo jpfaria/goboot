@@ -3,11 +3,11 @@ package client
 import "github.com/lann/builder"
 
 type Options struct {
-	Tls                bool
+	TLS                bool `config:"tls"`
 	Gzip               bool
 	CertFile           string
 	KeyFile            string
-	CAFile             string `config:"CAFile"`
+	CAFile             string `config:"caFile"`
 	Host               string
 	HostOverwrite      string
 	Port               int

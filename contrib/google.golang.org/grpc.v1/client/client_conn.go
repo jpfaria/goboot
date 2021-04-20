@@ -25,7 +25,7 @@ func NewClientConn(ctx context.Context, options *Options, exts ...Ext) *grpc.Cli
 
 	serverAddr := options.Host + ":" + strconv.Itoa(options.Port)
 
-	if options.Tls {
+	if options.TLS {
 
 		logger.Tracef("creating TLS grpc client for host %s", serverAddr)
 
@@ -66,42 +66,56 @@ func addTlsOptions(ctx context.Context, options *Options, opts []grpc.DialOption
 
 	logger := log.FromContext(ctx)
 
-	// Load the client certificates from disk
-	cert, err := tls.LoadX509KeyPair(options.CertFile, options.KeyFile)
-	if err != nil {
-		logger.Fatalf("could not load client key pair: %s", err)
-	}
 	var creds credentials.TransportCredentials
-	if options.CAFile != "" {
 
-		// Create a certificate pool from the certificate authority
-		certPool := x509.NewCertPool()
-		ca, err := ioutil.ReadFile(options.CAFile)
+	if options.CertFile != "" && options.KeyFile != "" {
+
+		// Load the client certificates from disk
+		cert, err := tls.LoadX509KeyPair(options.CertFile, options.KeyFile)
 		if err != nil {
-			logger.Fatalf("could not read ca certificate: %s", err)
+			logger.Fatalf("could not load client key pair: %s", err)
 		}
 
-		// Append the certificates from the CA
-		if ok := certPool.AppendCertsFromPEM(ca); !ok {
-			logger.Fatalf("failed to append ca certs")
-		}
+		if options.CAFile != "" {
 
-		creds = credentials.NewTLS(&tls.Config{
-			ServerName:         options.Host, // NOTE: this is required!
-			Certificates:       []tls.Certificate{cert},
-			RootCAs:            certPool,
-			InsecureSkipVerify: options.InsecureSkipVerify,
-		})
+			// Create a certificate pool from the certificate authority
+			certPool := x509.NewCertPool()
+			ca, err := ioutil.ReadFile(options.CAFile)
+			if err != nil {
+				logger.Fatalf("could not read ca certificate: %s", err)
+			}
+
+			// Append the certificates from the CA
+			if ok := certPool.AppendCertsFromPEM(ca); !ok {
+				logger.Fatalf("failed to append ca certs")
+			}
+
+			creds = credentials.NewTLS(&tls.Config{
+				ServerName:         options.Host, // NOTE: this is required!
+				Certificates:       []tls.Certificate{cert},
+				RootCAs:            certPool,
+				InsecureSkipVerify: options.InsecureSkipVerify,
+			})
+
+		} else {
+
+			creds = credentials.NewTLS(&tls.Config{
+				ServerName:         options.Host, // NOTE: this is required!
+				Certificates:       []tls.Certificate{cert},
+				InsecureSkipVerify: options.InsecureSkipVerify,
+			})
+
+		}
 
 	} else {
 
 		creds = credentials.NewTLS(&tls.Config{
 			ServerName:         options.Host, // NOTE: this is required!
-			Certificates:       []tls.Certificate{cert},
+			Certificates:       []tls.Certificate{},
 			InsecureSkipVerify: options.InsecureSkipVerify,
 		})
 
 	}
-	opts = append(opts, grpc.WithTransportCredentials(creds))
-	return opts
+
+	return append(opts, grpc.WithTransportCredentials(creds))
 }

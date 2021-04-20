@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"net"
 
-	"github.com/b2wdigital/goignite/v2/core/config"
 	"github.com/b2wdigital/goignite/v2/core/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/channelz/service"
@@ -46,32 +45,59 @@ func New(ctx context.Context, opt *Options, exts ...Ext) *Server {
 
 	var serverOptions []grpc.ServerOption
 
-	if config.Bool(tlsEnabled) {
+	if opt.TLS.Enabled {
 
-		// Load the certificates from disk
-		certificate, err := tls.LoadX509KeyPair(opt.TLS.CertFile, opt.TLS.KeyFile)
-		if err != nil {
-			logger.Fatalf("could not load server key pair: %s", err.Error())
-		}
+		logger.Debug("configuring tls on grpc server")
 
-		// Create a certificate pool from the certificate authority
+		var creds credentials.TransportCredentials
 		certPool := x509.NewCertPool()
-		ca, err := ioutil.ReadFile(opt.TLS.CAFile)
-		if err != nil {
-			logger.Fatalf("could not read ca certificate: %s", err.Error())
-		}
 
-		// Append the client certificates from the CA
-		if ok := certPool.AppendCertsFromPEM(ca); !ok {
-			logger.Fatalf("failed to append client certs")
-		}
+		if opt.TLS.CertFile != "" && opt.TLS.KeyFile != "" {
 
-		// Create the TLS credentials
-		creds := credentials.NewTLS(&tls.Config{
-			ClientAuth:   tls.RequireAndVerifyClientCert,
-			Certificates: []tls.Certificate{certificate},
-			ClientCAs:    certPool,
-		})
+			logger.Trace("configuring cert and key certificates on grpc server")
+
+			// Load the certificates from disk
+			certificate, err := tls.LoadX509KeyPair(opt.TLS.CertFile, opt.TLS.KeyFile)
+			if err != nil {
+				logger.Fatalf("could not load server key pair: %s", err.Error())
+			}
+
+			logger.Trace("cert and key certificates loaded")
+
+			if opt.TLS.CAFile != "" {
+
+				logger.Trace("configuring ca certificate on grpc server")
+
+				ca, err := ioutil.ReadFile(opt.TLS.CAFile)
+				if err != nil {
+					logger.Fatalf("could not read ca certificate: %s", err.Error())
+				}
+
+				// Append the client certificates from the CA
+				if ok := certPool.AppendCertsFromPEM(ca); !ok {
+					logger.Fatalf("failed to append client certs")
+				}
+
+				logger.Trace("ca certificate loaded")
+
+			}
+
+			// Create the TLS credentials
+			creds = credentials.NewTLS(&tls.Config{
+				ClientAuth:   tls.NoClientCert,
+				Certificates: []tls.Certificate{certificate},
+				ClientCAs:    certPool,
+			})
+
+		} else {
+
+			creds = credentials.NewTLS(&tls.Config{
+				ClientAuth:   tls.NoClientCert,
+				Certificates: []tls.Certificate{},
+				ClientCAs:    certPool,
+			})
+
+		}
 
 		serverOptions = append(serverOptions, grpc.Creds(creds))
 	}
@@ -84,8 +110,8 @@ func New(ctx context.Context, opt *Options, exts ...Ext) *Server {
 
 	s = grpc.NewServer(serverOptions...)
 
-	// grpc.InitialConnWindowSize(100),
-	// grpc.InitialWindowSize(100),
+	// grpc.InitialConnWindowSize(100)
+	// grpc.InitialWindowSize(100)
 
 	return &Server{
 		server:  s,
