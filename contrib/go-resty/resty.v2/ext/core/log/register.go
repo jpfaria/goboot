@@ -9,6 +9,27 @@ import (
 	"github.com/go-resty/resty/v2"
 )
 
+type l func(format string, args ...interface{})
+
+var lvl string
+
+func m(logger log.Logger) (method l) {
+
+	if lvl == "" {
+		lvl = Level()
+	}
+	switch lvl {
+	case "TRACE":
+		method = logger.Tracef
+	case "DEBUG":
+		method = logger.Debugf
+	default:
+		method = logger.Infof
+	}
+
+	return method
+}
+
 func Register(ctx context.Context, client *resty.Client) error {
 
 	if !IsEnabled() {
@@ -44,18 +65,9 @@ func logBeforeResponse(client *resty.Client, request *resty.Request) error {
 				"rest_request_method":  request.Method,
 			})
 
-	var method func(format string, args ...interface{})
+	xx := m(logger)
 
-	switch Level() {
-	case "TRACE":
-		method = logger.Tracef
-	case "DEBUG":
-		method = logger.Debugf
-	default:
-		method = logger.Infof
-	}
-
-	method("rest request processing")
+	xx("rest request processing")
 
 	return nil
 }
@@ -76,23 +88,13 @@ func logAfterResponse(client *resty.Client, response *resty.Response) error {
 			"rest_response_status_code": statusCode,
 		})
 
-	var method func(format string, args ...interface{})
-
-	switch Level() {
-	case "TRACE":
-		method = logger.Tracef
-	case "DEBUG":
-		method = logger.Debugf
-	default:
-		method = logger.Infof
-	}
-
 	if statusCode > 500 {
 		logger.Errorf("rest request processed with error")
 	} else if statusCode > 400 {
 		logger.Warnf("rest request processed with warning")
 	} else {
-		method("successful rest request processed")
+		xx := m(logger)
+		xx("successful rest request processed")
 	}
 
 	return nil
