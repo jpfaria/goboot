@@ -8,15 +8,47 @@ import (
 	"google.golang.org/grpc"
 )
 
+type l func(format string, args ...interface{})
+
+var lvl string
+
+func m(logger log.Logger) (method l) {
+
+	if lvl == "" {
+		lvl = Level()
+	}
+	switch lvl {
+	case "TRACE":
+		method = logger.Tracef
+	case "DEBUG":
+		method = logger.Debugf
+	default:
+		method = logger.Infof
+	}
+
+	return method
+}
+
 func streamInterceptor() grpc.StreamServerInterceptor {
 	return func(srv interface{}, stream grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
-		logger := log.FromContext(context.Background())
+		logger := log.FromContext(stream.Context())
 
 		start := time.Now()
 		wrapper := &recvWrapper{stream}
 		err := handler(srv, wrapper)
-		logger.Infof("invoke server method=%s duration=%s error=%v", info.FullMethod,
-			time.Since(start), err)
+
+		logger = logger.WithFields(log.Fields{
+			"method": info.FullMethod,
+
+			"duration": time.Since(start),
+		})
+
+		if err != nil {
+			logger = logger.WithField("error", err.Error())
+		}
+
+		xx := m(logger)
+		xx("stream request received")
 		return err
 	}
 }
@@ -27,10 +59,22 @@ func unaryInterceptor() grpc.UnaryServerInterceptor {
 		logger := log.FromContext(ctx)
 
 		start := time.Now()
-		r, err := handler(ctx, req)
-		logger.Infof("invoke server method=%s duration=%s error=%v response=%v", info.FullMethod,
-			time.Since(start), err, r)
-		return r, err
+		resp, err = handler(ctx, req)
+
+		logger = logger.WithFields(log.Fields{
+			"method":   info.FullMethod,
+			"duration": time.Since(start),
+			"response": resp,
+			"req":      req,
+		})
+
+		if err != nil {
+			logger = logger.WithField("error", err.Error())
+		}
+
+		xx := m(logger)
+		xx("unary request received")
+		return resp, err
 	}
 }
 

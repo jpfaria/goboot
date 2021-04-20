@@ -8,12 +8,18 @@ import (
 const (
 	root    = client.ExtRoot + ".logger"
 	enabled = root + ".enabled"
+	level   = root + ".level"
 )
 
 func init() {
 	config.Add(enabled, true, "enable/disable logger")
+	config.Add(level, "INFO", "sets log level INFO/DEBUG/TRACE")
 }
 
 func IsEnabled() bool {
 	return config.Bool(enabled)
+}
+
+func Level() string {
+	return config.String(level)
 }
