@@ -6,12 +6,12 @@ import (
 	"net/http"
 
 	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5"
-	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/ext/core/health"
-	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/ext/core/log"
-	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/ext/core/status"
-	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/ext/realip"
-	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/ext/recoverer"
-	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/ext/tid"
+	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/plugins/core/health"
+	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/plugins/core/log"
+	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/plugins/core/status"
+	tid2 "github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/plugins/extra/tid"
+	realip2 "github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/plugins/native/realip"
+	recoverer2 "github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/plugins/native/recoverer"
 	"github.com/b2wdigital/goignite/v2/contrib/sirupsen/logrus.v1"
 	"github.com/b2wdigital/goignite/v2/core/config"
 	"github.com/b2wdigital/goignite/v2/core/info"
@@ -65,10 +65,10 @@ func main() {
 
 	info.AppName = "helloworld"
 
-	srv := chi.NewDefault(ctx,
-		tid.Register,
-		recoverer.Register,
-		realip.Register,
+	srv := chi.NewServer(ctx,
+		tid2.Register,
+		recoverer2.Register,
+		realip2.Register,
 		log.Register,
 		status.Register,
 		health.Register)

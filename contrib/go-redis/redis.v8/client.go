@@ -9,7 +9,19 @@ import (
 
 type Ext func(context.Context, *redis.Client) error
 
-func NewClient(ctx context.Context, o *Options, exts ...Ext) (client *redis.Client, err error) {
+func NewClient(ctx context.Context, exts ...Ext) (*redis.Client, error) {
+
+	logger := log.FromContext(ctx)
+
+	o, err := NewOptions()
+	if err != nil {
+		logger.Fatalf(err.Error())
+	}
+
+	return NewClientWithOptions(ctx, o, exts...)
+}
+
+func NewClientWithOptions(ctx context.Context, o *Options, exts ...Ext) (client *redis.Client, err error) {
 
 	logger := log.FromContext(ctx)
 
@@ -80,16 +92,4 @@ func standaloneClient(o *Options) *redis.Client {
 
 func redisSentinel(o *Options) bool {
 	return o.Sentinel.MasterName != "" || o.Sentinel.Addrs != nil
-}
-
-func NewDefaultClient(ctx context.Context, exts ...Ext) (*redis.Client, error) {
-
-	logger := log.FromContext(ctx)
-
-	o, err := DefaultOptions()
-	if err != nil {
-		logger.Fatalf(err.Error())
-	}
-
-	return NewClient(ctx, o, exts...)
 }

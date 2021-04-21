@@ -10,7 +10,19 @@ import (
 
 type clusterExt func(context.Context, *redis.ClusterClient) error
 
-func NewClusterClient(ctx context.Context, o *Options, exts ...clusterExt) (client *redis.ClusterClient, err error) {
+func NewClusterClient(ctx context.Context, exts ...clusterExt) (*redis.ClusterClient, error) {
+
+	logger := log.FromContext(ctx)
+
+	o, err := NewOptionsWithPath()
+	if err != nil {
+		logger.Fatalf(err.Error())
+	}
+
+	return NewClusterClientWithOptions(ctx, o, exts...)
+}
+
+func NewClusterClientWithOptions(ctx context.Context, o *Options, exts ...clusterExt) (client *redis.ClusterClient, err error) {
 
 	logger := log.FromContext(ctx)
 
@@ -49,16 +61,4 @@ func NewClusterClient(ctx context.Context, o *Options, exts ...clusterExt) (clie
 	logger.Infof("Connected to Redis Cluster server: %s status: %s", strings.Join(client.Options().Addrs, ","), ping.String())
 
 	return client, err
-}
-
-func NewDefaultClusterClient(ctx context.Context, exts ...clusterExt) (*redis.ClusterClient, error) {
-
-	logger := log.FromContext(ctx)
-
-	o, err := DefaultOptions()
-	if err != nil {
-		logger.Fatalf(err.Error())
-	}
-
-	return NewClusterClient(ctx, o, exts...)
 }

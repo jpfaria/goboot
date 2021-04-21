@@ -33,15 +33,15 @@ type Server struct {
 	opts *server.Options
 }
 
-func NewDefault(ctx context.Context, exts ...Ext) *Server {
-	opt, err := server.DefaultOptions()
+func NewServer(ctx context.Context, exts ...Ext) *Server {
+	opt, err := server.NewOptions()
 	if err != nil {
 		panic(err)
 	}
-	return New(ctx, opt, exts...)
+	return NewServerWithOptions(ctx, opt, exts...)
 }
 
-func New(ctx context.Context, opts *server.Options, exts ...Ext) *Server {
+func NewServerWithOptions(ctx context.Context, opts *server.Options, exts ...Ext) *Server {
 
 	mux := chi.NewRouter()
 
@@ -102,7 +102,7 @@ func (s *Server) Serve(ctx context.Context) {
 
 	logger := log.FromContext(ctx)
 
-	httpServer := server.New(s.mux, s.opts)
+	httpServer := server.NewServerWithOptions(s.mux, s.opts)
 
 	logger.Infof("started chi http Server [%s]", httpServer.Addr)
 	if err := httpServer.ListenAndServe(); err != nil {

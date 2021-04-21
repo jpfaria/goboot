@@ -28,7 +28,7 @@ func Module() fx.Option {
 			contextfx.Module(),
 			fx.Provide(
 				func(ctx context.Context, p params) *fiber.Server {
-					return fiber.NewDefault(ctx, p.Exts...)
+					return fiber.NewServer(ctx, p.Exts...)
 				},
 				func(srv *fiber.Server) *f.App {
 					return srv.App()

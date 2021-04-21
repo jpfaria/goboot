@@ -15,7 +15,7 @@ func main() {
 
 	logrus.NewLogger()
 
-	conn, err := mongo.NewDefaultConn(context.Background())
+	conn, err := mongo.NewConn(context.Background())
 	if err != nil {
 		log.Panic(err)
 	}

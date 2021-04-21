@@ -735,8 +735,8 @@ github.com/nats-io/nuid v1.0.1/go.mod h1:19wcPz3Ph3q0Jbyiqsd0kePYG7A95tJPxeL+1OS
 github.com/nbutton23/zxcvbn-go v0.0.0-20180912185939-ae427f1e4c1d/go.mod h1:o96djdrsSGy3AWPyBgZMAGfxZNfgntdJG+11KU4QvbU=
 github.com/newrelic/go-agent/v3 v3.0.0/go.mod h1:H28zDNUC0U/b7kLoY4EFOhuth10Xu/9dchozUiOseQQ=
 github.com/newrelic/go-agent/v3 v3.4.0/go.mod h1:H28zDNUC0U/b7kLoY4EFOhuth10Xu/9dchozUiOseQQ=
-github.com/newrelic/go-agent/v3 v3.10.0 h1:qHcDwtC1DjOTI0r0nCtf8jT2LfEoNQ6gSo2tcxnR6ns=
-github.com/newrelic/go-agent/v3 v3.10.0/go.mod h1:1A1dssWBwzB7UemzRU6ZVaGDsI+cEn5/bNxI0wiYlIc=
+github.com/newrelic/go-agent/v3 v3.11.0 h1:14LGRRAh4tyaJcP7IsOSxZyaEfwa+OIIH80PQHUGJxw=
+github.com/newrelic/go-agent/v3 v3.11.0/go.mod h1:1A1dssWBwzB7UemzRU6ZVaGDsI+cEn5/bNxI0wiYlIc=
 github.com/newrelic/go-agent/v3/integrations/nrecho-v4 v1.0.0 h1:t5Onzlsdl4qMxRx62ag2n/wZlyzHoVDw75b/eCViOwM=
 github.com/newrelic/go-agent/v3/integrations/nrecho-v4 v1.0.0/go.mod h1:OaWlBA7HaVlDpvNsJ3JhH1IN45kP1lwIGa3+LJBnYuE=
 github.com/newrelic/go-agent/v3/integrations/nrgrpc v1.1.0 h1:WGBiZtFUmlNetADNYdDayv8Gh6dpwBnC2vjDnXyOl+g=

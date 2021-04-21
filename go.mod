@@ -45,7 +45,7 @@ require (
 	github.com/matryer/try v0.0.0-20161228173917-9ac251b645a2 // indirect
 	github.com/nats-io/nats-server/v2 v2.1.7 // indirect
 	github.com/nats-io/nats.go v1.10.0
-	github.com/newrelic/go-agent/v3 v3.10.0
+	github.com/newrelic/go-agent/v3 v3.11.0
 	github.com/newrelic/go-agent/v3/integrations/nrecho-v4 v1.0.0
 	github.com/newrelic/go-agent/v3/integrations/nrgrpc v1.1.0
 	github.com/newrelic/go-agent/v3/integrations/nrmongo v1.0.0

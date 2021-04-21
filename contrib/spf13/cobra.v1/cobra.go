@@ -10,7 +10,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func NewCmd(cmd *cobra.Command, cmds ...*cobra.Command) *cobra.Command {
+func NewCommand(cmd *cobra.Command, cmds ...*cobra.Command) *cobra.Command {
 	if len(cmds) > 0 {
 		cmd.AddCommand(cmds...)
 	}

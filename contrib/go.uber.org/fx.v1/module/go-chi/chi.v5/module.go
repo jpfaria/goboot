@@ -28,7 +28,7 @@ func Module() fx.Option {
 			contextfx.Module(),
 			fx.Provide(
 				func(ctx context.Context, p params) *chi.Server {
-					return chi.NewDefault(ctx, p.Exts...)
+					return chi.NewServer(ctx, p.Exts...)
 				},
 				func(srv *chi.Server) *c.Mux {
 					return srv.Mux()

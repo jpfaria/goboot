@@ -12,7 +12,7 @@ import (
 
 type Ext func(context.Context, *resty.Client) error
 
-func NewClient(ctx context.Context, options *Options, exts ...Ext) *resty.Client {
+func NewClientWithOptions(ctx context.Context, options *Options, exts ...Ext) *resty.Client {
 
 	logger := log.FromContext(ctx)
 

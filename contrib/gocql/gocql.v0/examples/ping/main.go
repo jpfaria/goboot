@@ -14,7 +14,7 @@ func main() {
 
 	logrus.NewLogger()
 
-	session, err := gocql.NewDefaultSession(context.Background())
+	session, err := gocql.NewSession(context.Background())
 	if err != nil {
 		panic(err)
 	}

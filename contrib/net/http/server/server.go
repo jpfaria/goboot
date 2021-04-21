@@ -4,17 +4,17 @@ import (
 	"net/http"
 )
 
-// New returns a pointer with new Server
-func NewDefault(handler http.Handler) *http.Server {
-	opt, err := DefaultOptions()
+// NewServerWithOptions returns a pointer with new Server
+func NewServer(handler http.Handler) *http.Server {
+	opt, err := NewOptions()
 	if err != nil {
 		panic(err)
 	}
-	return New(handler, opt)
+	return NewServerWithOptions(handler, opt)
 }
 
-// New returns a pointer with new Server
-func New(handler http.Handler, options *Options) *http.Server {
+// NewServerWithOptions returns a pointer with new Server
+func NewServerWithOptions(handler http.Handler, options *Options) *http.Server {
 	return &http.Server{
 		Addr:              options.Addr,
 		Handler:           handler,

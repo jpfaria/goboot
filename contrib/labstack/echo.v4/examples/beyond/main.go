@@ -4,12 +4,12 @@ import (
 	"context"
 
 	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4"
-	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/ext/core/health"
-	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/ext/core/logger"
-	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/ext/core/status"
-	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/ext/cors"
-	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/ext/gzip"
-	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/ext/requestid"
+	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/plugins/core/health"
+	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/plugins/core/logger"
+	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/plugins/core/status"
+	cors2 "github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/plugins/native/cors"
+	gzip2 "github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/plugins/native/gzip"
+	requestid2 "github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/plugins/native/requestid"
 	"github.com/b2wdigital/goignite/v2/contrib/sirupsen/logrus.v1"
 	"github.com/b2wdigital/goignite/v2/core/config"
 	"github.com/b2wdigital/goignite/v2/core/info"
@@ -47,15 +47,15 @@ func main() {
 
 	info.AppName = "google"
 
-	srv := echo.NewDefault(ctx,
-		cors.Register,
-		requestid.Register,
-		gzip.Register,
+	srv := echo.NewServer(ctx,
+		cors2.Register,
+		requestid2.Register,
+		gzip2.Register,
 		logger.Register,
 		status.Register,
 		health.Register)
 
-	srv.Echo().GET(c.App.Endpoint.Google, Get)
+	srv.Instance().GET(c.App.Endpoint.Google, Get)
 
 	srv.Serve(ctx)
 }

@@ -22,8 +22,8 @@ func TestNewConfig(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewConfig(tt.args.ctx, tt.args.options); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewConfig() = %v, want %v", got, tt.want)
+			if got := NewConfigWithOptions(tt.args.ctx, tt.args.options); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("NewConfigWithOptions() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -42,8 +42,8 @@ func TestNewDefaultConfig(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := NewDefaultConfig(tt.args.ctx); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("NewDefaultConfig() = %v, want %v", got, tt.want)
+			if got := NewConfig(tt.args.ctx); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("NewConfig() = %v, want %v", got, tt.want)
 			}
 		})
 	}

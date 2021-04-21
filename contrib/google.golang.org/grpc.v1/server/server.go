@@ -24,15 +24,15 @@ type Server struct {
 	options          *Options
 }
 
-func NewDefault(ctx context.Context, exts ...Ext) *Server {
-	opt, err := DefaultOptions()
+func NewServer(ctx context.Context, exts ...Ext) *Server {
+	opt, err := NewOptions()
 	if err != nil {
 		panic(err)
 	}
-	return New(ctx, opt, exts...)
+	return NewServerWithOptions(ctx, opt, exts...)
 }
 
-func New(ctx context.Context, opt *Options, exts ...Ext) *Server {
+func NewServerWithOptions(ctx context.Context, opt *Options, exts ...Ext) *Server {
 
 	logger := log.FromContext(ctx)
 

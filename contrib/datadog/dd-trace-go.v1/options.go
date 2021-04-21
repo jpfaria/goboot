@@ -29,7 +29,22 @@ type Options struct {
 	Addr string
 }
 
-func DefaultOptions() (*Options, error) {
+func NewOptionsWithPath(path string) (opts *Options, err error) {
+
+	opts, err = NewOptions()
+	if err != nil {
+		return nil, err
+	}
+
+	err = config.UnmarshalWithPath(path, opts)
+	if err != nil {
+		return nil, err
+	}
+
+	return opts, nil
+}
+
+func NewOptions() (*Options, error) {
 
 	o := &Options{}
 

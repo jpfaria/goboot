@@ -17,7 +17,7 @@ func LeaderModule() fx.Option {
 		options = fx.Options(
 			contextfx.Module(),
 			fx.Provide(
-				kafka.NewDefaultLeaderConnection,
+				kafka.NewConn,
 			),
 		)
 	})

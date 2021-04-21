@@ -9,19 +9,29 @@ import (
 	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
 )
 
-var once sync.Once
+func StartTracer(ctx context.Context, startOptions ...tracer.StartOption) {
 
-func NewTracer(ctx context.Context, options *Options, startOptions ...tracer.StartOption) {
+	o, err := NewOptions()
+	if err != nil {
+		panic(err)
+	}
+
+	StartTracerWithOptions(ctx, o, startOptions...)
+}
+
+var tracerOnce sync.Once
+
+func StartTracerWithOptions(ctx context.Context, options *Options, startOptions ...tracer.StartOption) {
 
 	if !IsEnabled() {
 		return
 	}
 
-	once.Do(func() {
+	tracerOnce.Do(func() {
 
 		logger := log.FromContext(ctx)
 
-		httpClient := client.NewClient(ctx, &options.HttpClient)
+		httpClient := client.NewClientWithOptions(ctx, &options.HttpClient)
 
 		so := []tracer.StartOption{
 			tracer.WithAgentAddr(options.Addr),

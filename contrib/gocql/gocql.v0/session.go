@@ -10,7 +10,19 @@ import (
 
 type Ext func(context.Context, *gocql.Session) error
 
-func NewSession(ctx context.Context, o *Options, exts ...Ext) (session *gocql.Session, err error) {
+func NewSession(ctx context.Context, exts ...Ext) (*gocql.Session, error) {
+
+	logger := log.FromContext(ctx)
+
+	o, err := NewOptions()
+	if err != nil {
+		logger.Fatalf(err.Error())
+	}
+
+	return NewSessionWithOptions(ctx, o, exts...)
+}
+
+func NewSessionWithOptions(ctx context.Context, o *Options, exts ...Ext) (session *gocql.Session, err error) {
 
 	logger := log.FromContext(ctx)
 
@@ -107,16 +119,4 @@ func NewSession(ctx context.Context, o *Options, exts ...Ext) (session *gocql.Se
 	logger.Infof("Connected to Cassandra server: %v", strings.Join(o.Hosts, ","))
 
 	return session, err
-}
-
-func NewDefaultSession(ctx context.Context, exts ...Ext) (*gocql.Session, error) {
-
-	logger := log.FromContext(ctx)
-
-	o, err := DefaultOptions()
-	if err != nil {
-		logger.Fatalf(err.Error())
-	}
-
-	return NewSession(ctx, o, exts...)
 }

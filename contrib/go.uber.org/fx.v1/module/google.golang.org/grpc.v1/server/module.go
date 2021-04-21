@@ -28,7 +28,7 @@ func Module() fx.Option {
 			contextfx.Module(),
 			fx.Provide(
 				func(ctx context.Context, p params) *server.Server {
-					return server.NewDefault(ctx, p.Exts...)
+					return server.NewServer(ctx, p.Exts...)
 				},
 				func(srv *server.Server) *grpc.Server {
 					return srv.Server()

@@ -16,7 +16,7 @@ func OptionsModule() fx.Option {
 	optOnce.Do(func() {
 		options = fx.Options(
 			fx.Provide(
-				datadog.DefaultOptions,
+				datadog.NewOptions,
 			),
 		)
 	})
@@ -34,7 +34,7 @@ func TracerModule() fx.Option {
 			contextfx.Module(),
 			OptionsModule(),
 			fx.Invoke(
-				datadog.NewTracer,
+				datadog.StartTracerWithOptions,
 			),
 		)
 	})
@@ -52,7 +52,7 @@ func ProfilerModule() fx.Option {
 			contextfx.Module(),
 			OptionsModule(),
 			fx.Invoke(
-				datadog.NewProfiler,
+				datadog.StartProfilerWithOptions,
 			),
 		)
 	})

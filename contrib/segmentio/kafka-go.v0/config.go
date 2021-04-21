@@ -8,6 +8,7 @@ const (
 	topic     = root + ".topic"
 	partition = root + ".partition"
 	network   = root + ".network"
+	connType  = root + ".connType"
 )
 
 func init() {
@@ -15,4 +16,5 @@ func init() {
 	config.Add(topic, "", "defines topic name")
 	config.Add(partition, 0, "defines partition number")
 	config.Add(network, "tcp", "defines network protocol")
+	config.Add(connType, "LEADER", "defines connectio type. LEADER, PARTITION or SERVER")
 }

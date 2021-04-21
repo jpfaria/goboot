@@ -13,7 +13,17 @@ import (
 
 type Ext func(context.Context, *aws.Config) error
 
-func NewConfig(ctx context.Context, options *Options, exts ...Ext) aws.Config {
+func NewConfig(ctx context.Context, exts ...Ext) aws.Config {
+
+	o, err := NewOptions()
+	if err != nil {
+		panic(err)
+	}
+
+	return NewConfigWithOptions(ctx, o, exts...)
+}
+
+func NewConfigWithOptions(ctx context.Context, options *Options, exts ...Ext) aws.Config {
 
 	logger := log.FromContext(ctx)
 
@@ -26,7 +36,7 @@ func NewConfig(ctx context.Context, options *Options, exts ...Ext) aws.Config {
 	cfg.Region = options.DefaultRegion
 	cfg.Credentials = credentials.NewStaticCredentialsProvider(options.AccessKeyId, options.SecretAccessKey, options.SessionToken)
 
-	httpClient := client.NewClient(ctx, &options.HttpClient)
+	httpClient := client.NewClientWithOptions(ctx, &options.HttpClient)
 
 	cfg.Retryer = retryerConfig(options)
 	cfg.HTTPClient = httpClient
@@ -61,13 +71,3 @@ type noRateLimit struct{}
 func (noRateLimit) AddTokens(uint) error { return nil }
 
 func (noRateLimit) GetToken(context.Context, uint) (func() error, error) { return nil, nil }
-
-func NewDefaultConfig(ctx context.Context, exts ...Ext) aws.Config {
-
-	o, err := DefaultOptions()
-	if err != nil {
-		panic(err)
-	}
-
-	return NewConfig(ctx, o, exts...)
-}

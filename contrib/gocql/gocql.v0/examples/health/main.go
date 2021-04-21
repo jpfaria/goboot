@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 
 	"github.com/b2wdigital/goignite/v2/contrib/gocql/gocql.v0"
-	h "github.com/b2wdigital/goignite/v2/contrib/gocql/gocql.v0/ext/core/health"
+	h "github.com/b2wdigital/goignite/v2/contrib/gocql/gocql.v0/plugins/core/health"
 	"github.com/b2wdigital/goignite/v2/contrib/sirupsen/logrus.v1"
 	"github.com/b2wdigital/goignite/v2/core/config"
 	"github.com/b2wdigital/goignite/v2/core/health"
@@ -20,7 +20,7 @@ func main() {
 
 	integrator := h.NewDefaultIntegrator()
 
-	session, err := gocql.NewDefaultSession(context.Background(), integrator.Register)
+	session, err := gocql.NewSession(context.Background(), integrator.Register)
 	if err != nil {
 		panic(err)
 	}

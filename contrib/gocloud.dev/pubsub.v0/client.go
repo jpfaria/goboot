@@ -21,8 +21,21 @@ const (
 	PUBSUB = "pubsub"
 )
 
-// NewTopic start a new topic for send message
-func NewTopic(ctx context.Context, o *Options) (*pubsub.Topic, error) {
+// NewTopic ..
+func NewTopic(ctx context.Context) (*pubsub.Topic, error) {
+
+	logger := log.FromContext(ctx)
+
+	o, err := NewOptions()
+	if err != nil {
+		logger.Fatalf(err.Error())
+	}
+
+	return NewTopicWithOptions(ctx, o)
+}
+
+// NewTopicWithOptions start a new topic for send message
+func NewTopicWithOptions(ctx context.Context, o *Options) (*pubsub.Topic, error) {
 
 	logger := log.FromContext(ctx)
 
@@ -42,21 +55,21 @@ func NewTopic(ctx context.Context, o *Options) (*pubsub.Topic, error) {
 
 }
 
-// NewDefaultTopic ..
-func NewDefaultTopic(ctx context.Context) (*pubsub.Topic, error) {
+// NewSubscription ..
+func NewSubscription(ctx context.Context) (*pubsub.Subscription, error) {
 
 	logger := log.FromContext(ctx)
 
-	o, err := DefaultOptions()
+	o, err := NewOptions()
 	if err != nil {
 		logger.Fatalf(err.Error())
 	}
 
-	return NewTopic(ctx, o)
+	return NewSubscriptionWithOptions(ctx, o)
 }
 
-// NewSubscription ..
-func NewSubscription(ctx context.Context, o *Options) (*pubsub.Subscription, error) {
+// NewSubscriptionWithOptions ..
+func NewSubscriptionWithOptions(ctx context.Context, o *Options) (*pubsub.Subscription, error) {
 
 	logger := log.FromContext(ctx)
 
@@ -74,19 +87,6 @@ func NewSubscription(ctx context.Context, o *Options) (*pubsub.Subscription, err
 	logger.Infof("open subscription for listen")
 	return subscription, nil
 
-}
-
-// NewDefaultSubscription ..
-func NewDefaultSubscription(ctx context.Context) (*pubsub.Subscription, error) {
-
-	logger := log.FromContext(ctx)
-
-	o, err := DefaultOptions()
-	if err != nil {
-		logger.Fatalf(err.Error())
-	}
-
-	return NewSubscription(ctx, o)
 }
 
 func addResource(o *Options) {

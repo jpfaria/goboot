@@ -16,11 +16,10 @@ func WithCacheSize(cacheSize int) Option {
 	}
 }
 
-func CustomOptions(path string) (*Options, error) {
-
+func NewOptions() (*Options, error) {
 	o := &Options{}
 
-	err := config.UnmarshalWithPath(path, o)
+	err := config.UnmarshalWithPath(root, o)
 	if err != nil {
 		return nil, err
 	}
@@ -28,6 +27,17 @@ func CustomOptions(path string) (*Options, error) {
 	return o, nil
 }
 
-func DefaultOptions() (*Options, error) {
-	return CustomOptions(root)
+func NewOptionsWithPath(path string) (opts *Options, err error) {
+
+	opts, err = NewOptions()
+	if err != nil {
+		return nil, err
+	}
+
+	err = config.UnmarshalWithPath(path, opts)
+	if err != nil {
+		return nil, err
+	}
+
+	return opts, nil
 }

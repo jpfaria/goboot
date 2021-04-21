@@ -9,7 +9,7 @@ import (
 	"gopkg.in/matryer/try.v1"
 )
 
-func NewServerConn(options *Options) (*ftp.ServerConn, error) {
+func NewServerConnWithOptions(ctx context.Context, options *Options) (*ftp.ServerConn, error) {
 
 	var conn *ftp.ServerConn
 
@@ -30,15 +30,14 @@ func NewServerConn(options *Options) (*ftp.ServerConn, error) {
 	return conn, nil
 }
 
-func NewDefaultServerConn(ctx context.Context) (*ftp.ServerConn, error) {
+func NewServerConn(ctx context.Context) (*ftp.ServerConn, error) {
 
 	logger := log.FromContext(ctx)
 
-	o, err := DefaultOptions()
+	o, err := NewOptions()
 	if err != nil {
 		logger.Fatalf(err.Error())
 	}
 
-	return NewServerConn(o)
-
+	return NewServerConnWithOptions(ctx, o)
 }

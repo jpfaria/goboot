@@ -9,7 +9,7 @@ import (
 
 type Ext func(context.Context, *nats.Conn) error
 
-func NewConnection(ctx context.Context, options *Options, exts ...Ext) (*nats.Conn, error) {
+func NewConnWithOptions(ctx context.Context, options *Options, exts ...Ext) (*nats.Conn, error) {
 
 	logger := log.FromContext(ctx)
 
@@ -37,16 +37,16 @@ func NewConnection(ctx context.Context, options *Options, exts ...Ext) (*nats.Co
 	return conn, nil
 }
 
-func NewDefaultConnection(ctx context.Context, exts ...Ext) (*nats.Conn, error) {
+func NewConn(ctx context.Context, exts ...Ext) (*nats.Conn, error) {
 
 	logger := log.FromContext(ctx)
 
-	o, err := DefaultOptions()
+	o, err := NewOptions()
 	if err != nil {
 		logger.Fatalf(err.Error())
 	}
 
-	return NewConnection(ctx, o, exts...)
+	return NewConnWithOptions(ctx, o, exts...)
 }
 
 func disconnectedErrHandler(nc *nats.Conn, err error) {

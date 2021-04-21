@@ -18,7 +18,7 @@ func main() {
 	// start logrus
 	logrus.NewLogger()
 
-	srv := server.NewDefault(ctx)
+	srv := server.NewServer(ctx)
 
 	RegisterExampleServer(srv.Server(), &Service{})
 

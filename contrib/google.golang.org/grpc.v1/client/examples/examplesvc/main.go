@@ -25,7 +25,7 @@ func main() {
 		Port(9090).
 		Build()
 
-	conn := client.NewClientConn(ctx, &options)
+	conn := client.NewClientConnWithOptions(ctx, &options)
 	defer conn.Close()
 
 	c := NewExampleClient(conn)

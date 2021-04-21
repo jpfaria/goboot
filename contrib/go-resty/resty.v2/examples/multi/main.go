@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/b2wdigital/goignite/v2/contrib/go-resty/resty.v2"
-	"github.com/b2wdigital/goignite/v2/contrib/go-resty/resty.v2/ext/core/health"
+	"github.com/b2wdigital/goignite/v2/contrib/go-resty/resty.v2/plugins/core/health"
 	"github.com/b2wdigital/goignite/v2/contrib/sirupsen/logrus.v1"
 	"github.com/b2wdigital/goignite/v2/core/config"
 	"github.com/b2wdigital/goignite/v2/core/log"
@@ -34,7 +34,7 @@ func main() {
 
 	healthIntegrator := health.NewDefaultIntegrator()
 
-	cligoogle := resty.NewClient(ctx, googleopt, healthIntegrator.Register)
+	cligoogle := resty.NewClientWithOptions(ctx, googleopt, healthIntegrator.Register)
 	reqgoogle := cligoogle.R()
 
 	var respgoogle *r.Response
@@ -57,7 +57,7 @@ func main() {
 		logger.Errorf(err.Error())
 	}
 
-	cliacom := resty.NewClient(ctx, acomopt)
+	cliacom := resty.NewClientWithOptions(ctx, acomopt)
 	reqacom := cliacom.R()
 
 	var respacom *r.Response

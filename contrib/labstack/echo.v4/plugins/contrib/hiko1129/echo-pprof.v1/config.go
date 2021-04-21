@@ -1,4 +1,4 @@
-package pprof
+package echo_pprof_v1
 
 import (
 	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4"

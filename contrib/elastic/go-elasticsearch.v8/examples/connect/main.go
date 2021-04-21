@@ -15,7 +15,7 @@ func main() {
 
 	logrus.NewLogger()
 
-	client, err := elasticsearch.NewDefaultClient(context.Background())
+	client, err := elasticsearch.NewClient(context.Background())
 	if err != nil {
 		log.Panic(err)
 	}

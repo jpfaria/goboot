@@ -15,15 +15,15 @@ type Server struct {
 	options  *Options
 }
 
-func NewDefault(ctx context.Context, exts ...Ext) *Server {
-	opt, err := DefaultOptions()
+func NewServer(ctx context.Context, exts ...Ext) *Server {
+	opt, err := NewOptions()
 	if err != nil {
 		panic(err)
 	}
-	return New(ctx, opt, exts...)
+	return NewServerWithOptions(ctx, opt, exts...)
 }
 
-func New(ctx context.Context, opt *Options, exts ...Ext) *Server {
+func NewServerWithOptions(ctx context.Context, opt *Options, exts ...Ext) *Server {
 
 	instance := echo.New()
 
@@ -39,7 +39,7 @@ func New(ctx context.Context, opt *Options, exts ...Ext) *Server {
 	return &Server{instance: instance, options: opt}
 }
 
-func (s *Server) Echo() *echo.Echo {
+func (s *Server) Instance() *echo.Echo {
 	return s.instance
 }
 

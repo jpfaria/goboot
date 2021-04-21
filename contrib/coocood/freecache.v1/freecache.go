@@ -7,7 +7,7 @@ import (
 	"github.com/coocood/freecache"
 )
 
-func NewCache(ctx context.Context, o *Options, opts ...Option) (cache *freecache.Cache, err error) {
+func NewCacheWithOptions(ctx context.Context, o *Options, opts ...Option) (cache *freecache.Cache, err error) {
 
 	logger := log.FromContext(ctx)
 
@@ -23,14 +23,14 @@ func NewCache(ctx context.Context, o *Options, opts ...Option) (cache *freecache
 
 }
 
-func NewDefaultCache(ctx context.Context, opts ...Option) (*freecache.Cache, error) {
+func NewCache(ctx context.Context, opts ...Option) (*freecache.Cache, error) {
 
 	logger := log.FromContext(ctx)
 
-	o, err := DefaultOptions()
+	o, err := NewOptions()
 	if err != nil {
 		logger.Fatalf(err.Error())
 	}
 
-	return NewCache(ctx, o, opts...)
+	return NewCacheWithOptions(ctx, o, opts...)
 }

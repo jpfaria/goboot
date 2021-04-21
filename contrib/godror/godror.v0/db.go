@@ -10,7 +10,7 @@ import (
 
 type Ext func(context.Context, *sql.DB) error
 
-func NewDB(ctx context.Context, o *Options, exts ...Ext) (db *sql.DB, err error) {
+func NewDBWithOptions(ctx context.Context, o *Options, exts ...Ext) (db *sql.DB, err error) {
 
 	logger := log.FromContext(ctx)
 
@@ -39,14 +39,14 @@ func NewDB(ctx context.Context, o *Options, exts ...Ext) (db *sql.DB, err error)
 	return db, err
 }
 
-func NewDefaultDB(ctx context.Context, exts ...Ext) (*sql.DB, error) {
+func NewDB(ctx context.Context, exts ...Ext) (*sql.DB, error) {
 
 	logger := log.FromContext(ctx)
 
-	o, err := DefaultOptions()
+	o, err := NewOptions()
 	if err != nil {
 		logger.Fatalf(err.Error())
 	}
 
-	return NewDB(ctx, o, exts...)
+	return NewDBWithOptions(ctx, o, exts...)
 }

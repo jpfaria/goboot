@@ -9,7 +9,7 @@ import (
 	"github.com/b2wdigital/goignite/v2/core/log"
 )
 
-func NewClient(ctx context.Context, options *Options) *http.Client {
+func NewClientWithOptions(ctx context.Context, options *Options) *http.Client {
 
 	tr := &http.Transport{
 		Proxy: http.ProxyFromEnvironment,
@@ -84,14 +84,14 @@ func NewClient(ctx context.Context, options *Options) *http.Client {
 	}
 }
 
-func NewDefaultClient(ctx context.Context) *http.Client {
+func NewClient(ctx context.Context) *http.Client {
 
 	logger := log.FromContext(ctx)
 
-	o, err := DefaultOptions()
+	o, err := NewOptions()
 	if err != nil {
 		logger.Fatalf(err.Error())
 	}
 
-	return NewClient(ctx, o)
+	return NewClientWithOptions(ctx, o)
 }

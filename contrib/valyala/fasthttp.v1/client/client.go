@@ -7,7 +7,7 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
-func NewClient(ctx context.Context, o *Options) *fasthttp.Client {
+func NewClientWithOptions(ctx context.Context, o *Options) *fasthttp.Client {
 
 	client := &fasthttp.Client{
 		Name:                          o.Name,
@@ -28,14 +28,14 @@ func NewClient(ctx context.Context, o *Options) *fasthttp.Client {
 	return client
 }
 
-func NewDefaultClient(ctx context.Context) *fasthttp.Client {
+func NewClient(ctx context.Context) *fasthttp.Client {
 
 	logger := log.FromContext(ctx)
 
-	o, err := DefaultOptions()
+	o, err := NewOptions()
 	if err != nil {
 		logger.Fatalf(err.Error())
 	}
 
-	return NewClient(ctx, o)
+	return NewClientWithOptions(ctx, o)
 }

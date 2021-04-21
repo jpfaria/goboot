@@ -7,7 +7,7 @@ import (
 	"github.com/hashicorp/go-memdb"
 )
 
-func NewDatabase(ctx context.Context, schema *memdb.DBSchema) (db *memdb.MemDB, err error) {
+func NewMemDB(ctx context.Context, schema *memdb.DBSchema) (db *memdb.MemDB, err error) {
 
 	logger := log.FromContext(ctx)
 

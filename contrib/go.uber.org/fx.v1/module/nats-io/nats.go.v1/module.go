@@ -17,7 +17,7 @@ func SubscriberModule() fx.Option {
 		options = fx.Options(
 			contextfx.Module(),
 			fx.Provide(
-				nats.NewDefaultSubscriber,
+				nats.NewSubscriber,
 			),
 		)
 	})
@@ -34,7 +34,7 @@ func PublisherModule() fx.Option {
 		options = fx.Options(
 			contextfx.Module(),
 			fx.Provide(
-				nats.NewDefaultPublisher,
+				nats.NewPublisher,
 			),
 		)
 	})

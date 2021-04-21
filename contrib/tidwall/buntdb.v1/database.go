@@ -7,7 +7,7 @@ import (
 	"github.com/tidwall/buntdb"
 )
 
-func NewDatabase(ctx context.Context, o *Options) (db *buntdb.DB, err error) {
+func NewDBWithOptions(ctx context.Context, o *Options) (db *buntdb.DB, err error) {
 
 	logger := log.FromContext(ctx)
 
@@ -45,14 +45,14 @@ func NewDatabase(ctx context.Context, o *Options) (db *buntdb.DB, err error) {
 
 }
 
-func NewDefaultDatabase(ctx context.Context) (*buntdb.DB, error) {
+func NewDB(ctx context.Context) (*buntdb.DB, error) {
 
 	logger := log.FromContext(ctx)
 
-	o, err := DefaultOptions()
+	o, err := NewOptions()
 	if err != nil {
 		logger.Fatalf(err.Error())
 	}
 
-	return NewDatabase(ctx, o)
+	return NewDBWithOptions(ctx, o)
 }

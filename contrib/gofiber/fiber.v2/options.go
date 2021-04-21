@@ -10,8 +10,7 @@ type Options struct {
 	Config *fiber.Config
 }
 
-func DefaultOptions() (*Options, error) {
-
+func NewOptions() (*Options, error) {
 	o := &Options{}
 
 	err := config.UnmarshalWithPath(root, o)
@@ -20,4 +19,19 @@ func DefaultOptions() (*Options, error) {
 	}
 
 	return o, nil
+}
+
+func NewOptionsWithPath(path string) (opts *Options, err error) {
+
+	opts, err = NewOptions()
+	if err != nil {
+		return nil, err
+	}
+
+	err = config.UnmarshalWithPath(path, opts)
+	if err != nil {
+		return nil, err
+	}
+
+	return opts, nil
 }

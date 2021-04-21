@@ -7,29 +7,38 @@ import (
 	"github.com/segmentio/kafka-go"
 )
 
-func NewLeaderConnection(ctx context.Context, o *Options) (conn *kafka.Conn, err error) {
+func NewConnWithOptions(ctx context.Context, o *Options) (conn *kafka.Conn, err error) {
 
 	logger := log.FromContext(ctx)
 
-	conn, err = kafka.DialLeader(context.Background(), o.Network, o.Address, o.Topic, o.Partition)
+	switch o.ConnType {
+	case "SERVER":
+		conn, err = kafka.DialContext(context.Background(), o.Network, o.Address)
+	case "PARTITION":
+		conn, err = kafka.DialPartition(context.Background(), o.Network, o.Address, kafka.Partition{
+			Topic: o.Topic,
+			ID:    o.Partition,
+		})
+	default:
+		conn, err = kafka.DialLeader(context.Background(), o.Network, o.Address, o.Topic, o.Partition)
+	}
 	if err != nil {
-		logger.Fatal("failed to dial leader:", err)
+		logger.Fatal("failed to dial %s. %s", o.ConnType, err.Error())
 	}
 
 	logger.Infof("Created kafka connection to %v", o.Address)
 
 	return conn, err
-
 }
 
-func NewDefaultLeaderConnection(ctx context.Context) (*kafka.Conn, error) {
+func NewConn(ctx context.Context) (*kafka.Conn, error) {
 
 	logger := log.FromContext(ctx)
 
-	o, err := DefaultOptions()
+	o, err := NewOptions()
 	if err != nil {
 		logger.Fatalf(err.Error())
 	}
 
-	return NewLeaderConnection(ctx, o)
+	return NewConnWithOptions(ctx, o)
 }

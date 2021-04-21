@@ -15,7 +15,7 @@ import (
 
 type Ext func(ctx context.Context) []grpc.DialOption
 
-func NewClientConn(ctx context.Context, options *Options, exts ...Ext) *grpc.ClientConn {
+func NewClientConnWithOptions(ctx context.Context, options *Options, exts ...Ext) *grpc.ClientConn {
 
 	var err error
 	var conn *grpc.ClientConn

@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 
 	"github.com/b2wdigital/goignite/v2/contrib/go-redis/redis.v7"
-	"github.com/b2wdigital/goignite/v2/contrib/go-redis/redis.v7/ext/core/health"
+	"github.com/b2wdigital/goignite/v2/contrib/go-redis/redis.v7/plugins/core/health"
 	"github.com/b2wdigital/goignite/v2/contrib/sirupsen/logrus.v1"
 	"github.com/b2wdigital/goignite/v2/core/config"
 	h "github.com/b2wdigital/goignite/v2/core/health"
@@ -22,7 +22,7 @@ func main() {
 
 	healthIntegrator := health.NewDefaultClientIntegrator()
 
-	_, err = redis.NewDefaultClient(context.Background(), healthIntegrator.Register)
+	_, err = redis.NewClient(context.Background(), healthIntegrator.Register)
 	if err != nil {
 		log.Error(err)
 	}

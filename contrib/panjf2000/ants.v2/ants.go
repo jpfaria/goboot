@@ -30,8 +30,8 @@ type Wrapper struct {
 	middlewares []Middleware
 }
 
-// New generates an instance of giants wrapper.
-func New(pool *ants.Pool, middlewares ...Middleware) *Wrapper {
+// NewWrapper generates an instance of giants wrapper.
+func NewWrapper(pool *ants.Pool, middlewares ...Middleware) *Wrapper {
 	log.Trace("creating ants wrapper")
 	return &Wrapper{pool: pool, middlewares: middlewares}
 }

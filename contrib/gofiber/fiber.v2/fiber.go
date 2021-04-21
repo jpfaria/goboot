@@ -15,15 +15,15 @@ type Server struct {
 	options *Options
 }
 
-func NewDefault(ctx context.Context, exts ...Ext) *Server {
-	options, err := DefaultOptions()
+func NewServer(ctx context.Context, exts ...Ext) *Server {
+	options, err := NewOptions()
 	if err != nil {
 		panic(err)
 	}
-	return New(ctx, options, exts...)
+	return NewServerWithOptions(ctx, options, exts...)
 }
 
-func New(ctx context.Context, options *Options, exts ...Ext) *Server {
+func NewServerWithOptions(ctx context.Context, options *Options, exts ...Ext) *Server {
 
 	app := fiber.New(*options.Config)
 

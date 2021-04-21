@@ -32,7 +32,7 @@ func main() {
 	logger := log.FromContext(ctx)
 
 	// create default aws config
-	awsConfig := aws.NewDefaultConfig(ctx)
+	awsConfig := aws.NewConfig(ctx)
 
 	// create sns client
 	sqsClient := akinesis.NewFromConfig(awsConfig)

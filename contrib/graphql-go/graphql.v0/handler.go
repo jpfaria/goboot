@@ -5,10 +5,12 @@ import (
 	"github.com/graphql-go/handler"
 )
 
-func NewDefaultHandler(schema *graphql.Schema) *handler.Handler {
-	config, _ := DefaultHandlerConfig()
-	config.Schema = schema
-	h := handler.New(config)
+func NewHandler(schema *graphql.Schema) *handler.Handler {
+	c, _ := DefaultHandlerConfig()
+	return NewHandlerWithConfig(schema, c)
+}
 
-	return h
+func NewHandlerWithConfig(schema *graphql.Schema, c *handler.Config) *handler.Handler {
+	c.Schema = schema
+	return handler.New(c)
 }

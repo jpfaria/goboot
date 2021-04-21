@@ -1,6 +1,9 @@
 package client
 
-import "github.com/lann/builder"
+import (
+	"github.com/b2wdigital/goignite/v2/core/config"
+	"github.com/lann/builder"
+)
 
 type Options struct {
 	TLS                bool `config:"tls"`
@@ -62,3 +65,15 @@ func (b optionsBuilder) Build() Options {
 }
 
 var OptionsBuilder = builder.Register(optionsBuilder{}, Options{}).(optionsBuilder)
+
+func NewOptionsWithPath(path string) (*Options, error) {
+
+	o := &Options{}
+
+	err := config.UnmarshalWithPath(path, o)
+	if err != nil {
+		return nil, err
+	}
+
+	return o, nil
+}

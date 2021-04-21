@@ -14,20 +14,20 @@ type Subscriber struct {
 	msgHandlers []msgHandler
 }
 
-func NewSubscriber(ctx context.Context, options *Options, msgHandlers ...msgHandler) (*Subscriber, error) {
-	conn, err := NewConnection(ctx, options)
+func NewSubscriberWithOptions(ctx context.Context, options *Options, msgHandlers ...msgHandler) (*Subscriber, error) {
+	conn, err := NewConnWithOptions(ctx, options)
 	if err != nil {
 		return nil, err
 	}
 	return &Subscriber{conn, options, msgHandlers}, nil
 }
 
-func NewDefaultSubscriber(ctx context.Context, msgHandlers ...msgHandler) (*Subscriber, error) {
-	options, err := DefaultOptions()
+func NewSubscriber(ctx context.Context, msgHandlers ...msgHandler) (*Subscriber, error) {
+	options, err := NewOptions()
 	if err != nil {
 		return nil, err
 	}
-	return NewSubscriber(ctx, options, msgHandlers...)
+	return NewSubscriberWithOptions(ctx, options, msgHandlers...)
 }
 
 func (p *Subscriber) Subscribe(subj string, queue string, cb nats.MsgHandler) (*nats.Subscription, error) {

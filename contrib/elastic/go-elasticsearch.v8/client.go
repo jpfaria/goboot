@@ -13,7 +13,19 @@ import (
 
 type Ext func(context.Context, *elasticsearch.Client) error
 
-func NewClient(ctx context.Context, o *Options, exts ...Ext) (client *elasticsearch.Client, err error) {
+func NewClient(ctx context.Context, exts ...Ext) (*elasticsearch.Client, error) {
+
+	logger := log.FromContext(ctx)
+
+	o, err := NewOptions()
+	if err != nil {
+		logger.Fatalf(err.Error())
+	}
+
+	return NewClientWithOptions(ctx, o, exts...)
+}
+
+func NewClientWithOptions(ctx context.Context, o *Options, exts ...Ext) (client *elasticsearch.Client, err error) {
 
 	logger := log.FromContext(ctx)
 
@@ -65,16 +77,4 @@ func NewClient(ctx context.Context, o *Options, exts ...Ext) (client *elasticsea
 func backOff(attempt int) time.Duration {
 	b := config.Duration(retryBackoff)
 	return time.Duration(attempt) * b
-}
-
-func NewDefaultClient(ctx context.Context, exts ...Ext) (*elasticsearch.Client, error) {
-
-	logger := log.FromContext(ctx)
-
-	o, err := DefaultOptions()
-	if err != nil {
-		logger.Fatalf(err.Error())
-	}
-
-	return NewClient(ctx, o, exts...)
 }

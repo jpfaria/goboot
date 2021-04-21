@@ -9,9 +9,19 @@ import (
 	"gopkg.in/DataDog/dd-trace-go.v1/profiler"
 )
 
+func StartProfiler(ctx context.Context, profileOptions ...profiler.Option) {
+
+	o, err := NewOptions()
+	if err != nil {
+		panic(err)
+	}
+
+	StartProfilerWithOptions(ctx, o, profileOptions...)
+}
+
 var profilerOnce sync.Once
 
-func NewProfiler(ctx context.Context, options *Options, profileOptions ...profiler.Option) {
+func StartProfilerWithOptions(ctx context.Context, options *Options, profileOptions ...profiler.Option) {
 
 	if !IsEnabled() {
 		return
@@ -21,7 +31,7 @@ func NewProfiler(ctx context.Context, options *Options, profileOptions ...profil
 
 		logger := log.FromContext(ctx)
 
-		httpClient := client.NewClient(ctx, &options.HttpClient)
+		httpClient := client.NewClientWithOptions(ctx, &options.HttpClient)
 
 		var tags []string
 

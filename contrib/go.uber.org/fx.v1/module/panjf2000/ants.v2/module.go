@@ -18,7 +18,7 @@ func Module() fx.Option {
 		options = fx.Options(
 			fx.Provide(
 				func(pool *a.Pool, m []ants.Middleware) *ants.Wrapper {
-					return ants.New(pool, m...)
+					return ants.NewWrapper(pool, m...)
 				},
 			),
 		)

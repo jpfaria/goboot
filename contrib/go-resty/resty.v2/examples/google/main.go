@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/b2wdigital/goignite/v2/contrib/go-resty/resty.v2"
-	"github.com/b2wdigital/goignite/v2/contrib/go-resty/resty.v2/ext/core/health"
+	"github.com/b2wdigital/goignite/v2/contrib/go-resty/resty.v2/plugins/core/health"
 	"github.com/b2wdigital/goignite/v2/contrib/sirupsen/logrus.v1"
 	"github.com/b2wdigital/goignite/v2/core/config"
 	"github.com/b2wdigital/goignite/v2/core/log"
@@ -34,7 +34,7 @@ func main() {
 
 	healthIntegrator := health.NewIntegrator(&options)
 
-	client := resty.NewClient(ctx, &resty.Options{}, healthIntegrator.Register)
+	client := resty.NewClientWithOptions(ctx, &resty.Options{}, healthIntegrator.Register)
 	request := client.R().EnableTrace()
 
 	var resp *r.Response

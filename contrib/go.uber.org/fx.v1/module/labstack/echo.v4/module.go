@@ -28,10 +28,10 @@ func Module() fx.Option {
 			contextfx.Module(),
 			fx.Provide(
 				func(ctx context.Context, p params) *echo.Server {
-					return echo.NewDefault(ctx, p.Exts...)
+					return echo.NewServer(ctx, p.Exts...)
 				},
 				func(srv *echo.Server) *e.Echo {
-					return srv.Echo()
+					return srv.Instance()
 				},
 			),
 			fx.Provide(

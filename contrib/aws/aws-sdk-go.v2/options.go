@@ -59,11 +59,19 @@ func (b optionsBuilder) Build() Options {
 
 var OptionsBuilder = builder.Register(optionsBuilder{}, Options{}).(optionsBuilder)
 
-func DefaultOptions() (*Options, error) {
-
+func NewOptionsWithPath(path string) (*Options, error) {
 	o := &Options{}
 
-	err := config.UnmarshalWithPath(root, o)
+	err := config.UnmarshalWithPath(path, o)
+	if err != nil {
+		return nil, err
+	}
+
+	return o, nil
+}
+
+func NewOptions() (*Options, error) {
+	o, err := NewOptionsWithPath(root)
 	if err != nil {
 		return nil, err
 	}

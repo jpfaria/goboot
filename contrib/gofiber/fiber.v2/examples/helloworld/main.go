@@ -6,8 +6,8 @@ import (
 
 	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5"
 	"github.com/b2wdigital/goignite/v2/contrib/gofiber/fiber.v2"
-	"github.com/b2wdigital/goignite/v2/contrib/gofiber/fiber.v2/ext/cors"
-	"github.com/b2wdigital/goignite/v2/contrib/gofiber/fiber.v2/ext/etag"
+	cors2 "github.com/b2wdigital/goignite/v2/contrib/gofiber/fiber.v2/plugins/native/cors"
+	etag2 "github.com/b2wdigital/goignite/v2/contrib/gofiber/fiber.v2/plugins/native/etag"
 	"github.com/b2wdigital/goignite/v2/contrib/sirupsen/logrus.v1"
 	"github.com/b2wdigital/goignite/v2/core/config"
 	"github.com/b2wdigital/goignite/v2/core/info"
@@ -67,15 +67,15 @@ func main() {
 
 	info.AppName = "helloworld"
 
-	fiberSrv := fiber.NewDefault(ctx,
-		cors.Register,
-		etag.Register)
+	fiberSrv := fiber.NewServer(ctx,
+		cors2.Register,
+		etag2.Register)
 
 	fiberSrv.App().Get(c.App.Endpoint.Helloworld, Get)
 
 	fiberSrv.Serve(ctx)
 
-	chiSrv := chi.NewDefault(ctx)
+	chiSrv := chi.NewServer(ctx)
 
 	server.Serve(ctx, fiberSrv, chiSrv)
 }

@@ -17,20 +17,20 @@ type Publisher struct {
 	middlewares []PublisherMiddleware
 }
 
-func NewPublisher(ctx context.Context, options *Options, middlewares ...PublisherMiddleware) (*Publisher, error) {
-	conn, err := NewConnection(ctx, options)
+func NewPublisherWithOptions(ctx context.Context, options *Options, middlewares ...PublisherMiddleware) (*Publisher, error) {
+	conn, err := NewConnWithOptions(ctx, options)
 	if err != nil {
 		return nil, err
 	}
 	return &Publisher{conn, options, middlewares}, nil
 }
 
-func NewDefaultPublisher(ctx context.Context, middlewares ...PublisherMiddleware) (*Publisher, error) {
-	options, err := DefaultOptions()
+func NewPublisher(ctx context.Context, middlewares ...PublisherMiddleware) (*Publisher, error) {
+	options, err := NewOptions()
 	if err != nil {
 		return nil, err
 	}
-	return NewPublisher(ctx, options, middlewares...)
+	return NewPublisherWithOptions(ctx, options, middlewares...)
 }
 
 func (p *Publisher) Publish(ctx context.Context, msg *nats.Msg) error {

@@ -20,7 +20,7 @@ func main() {
 
 	logger := log.FromContext(ctx)
 
-	topic, err := pubsub.NewDefaultTopic(ctx)
+	topic, err := pubsub.NewTopic(ctx)
 	if err != nil {
 		logger.Fatalf(err.Error())
 	}
@@ -43,7 +43,7 @@ func main() {
 	logger.Infof("sucesss message send")
 
 	// Don't works using memory
-	// subscription, err := gocloud.NewDefaultSubscription(ctx)
+	// subscription, err := gocloud.NewSubscription(ctx)
 	// if err != nil {
 	// 	logger.Fatalf(err.Error())
 	// }
