@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = fiber.ExtRoot + ".datadog.enabled"
+	enabled = fiber.PluginsRoot + ".datadog.enabled"
 )
 
 func init() {

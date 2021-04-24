@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = fiber.ExtRoot + ".monitor.enabled"
+	enabled = fiber.PluginsRoot + ".monitor.enabled"
 )
 
 func init() {

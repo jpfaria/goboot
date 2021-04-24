@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = fiber.ExtRoot + ".pprof.enabled"
+	enabled = fiber.PluginsRoot + ".pprof.enabled"
 )
 
 func init() {

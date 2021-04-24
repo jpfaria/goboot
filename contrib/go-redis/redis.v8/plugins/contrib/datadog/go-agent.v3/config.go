@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = redis.ExtRoot + ".datadog"
+	root    = redis.PluginsRoot + ".datadog"
 	enabled = root + ".enabled"
 )
 

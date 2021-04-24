@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = mongo.ExtRoot + ".newrelic"
+	root    = mongo.PluginsRoot + ".newrelic"
 	enabled = root + ".enabled"
 )
 

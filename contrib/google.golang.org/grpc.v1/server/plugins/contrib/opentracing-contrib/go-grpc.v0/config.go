@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = server.ExtRoot + ".opentracing"
+	root    = server.PluginsRoot + ".opentracing"
 	enabled = root + ".enabled"
 )
 

@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = fiber.ExtRoot + ".etag.enabled"
+	enabled = fiber.PluginsRoot + ".etag.enabled"
 )
 
 func init() {

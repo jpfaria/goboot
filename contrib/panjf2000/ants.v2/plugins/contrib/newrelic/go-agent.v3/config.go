@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = ants.ExtRoot + ".newrelic"
+	root    = ants.PluginsRoot + ".newrelic"
 	enabled = root + ".enabled"
 )
 

@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = echo.ExtRoot + ".tid.enabled"
+	enabled = echo.PluginsRoot + ".tid.enabled"
 )
 
 func init() {

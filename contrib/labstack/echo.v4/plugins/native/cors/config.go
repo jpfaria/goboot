@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	root             = echo.ExtRoot + ".cors"
+	root             = echo.PluginsRoot + ".cors"
 	enabled          = root + ".enabled"
 	allowOrigins     = root + ".allow.origins"
 	allowHeaders     = root + ".allow.headers"

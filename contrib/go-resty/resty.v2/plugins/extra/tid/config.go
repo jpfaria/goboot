@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = resty.ExtRoot + ".tid"
+	root    = resty.PluginsRoot + ".tid"
 	enabled = root + ".enabled"
 )
 

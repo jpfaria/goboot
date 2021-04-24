@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = fiber.ExtRoot + ".logger.enabled"
+	enabled = fiber.PluginsRoot + ".logger.enabled"
 )
 
 func init() {

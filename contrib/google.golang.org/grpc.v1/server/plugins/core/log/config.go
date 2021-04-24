@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = server.ExtRoot + ".logger"
+	root    = server.PluginsRoot + ".logger"
 	enabled = root + ".enabled"
 	level   = root + ".level"
 )

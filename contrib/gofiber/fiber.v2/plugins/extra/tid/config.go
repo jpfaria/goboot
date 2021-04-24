@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = fiber.ExtRoot + ".tid"
+	root    = fiber.PluginsRoot + ".tid"
 	enabled = root + ".enabled"
 )
 

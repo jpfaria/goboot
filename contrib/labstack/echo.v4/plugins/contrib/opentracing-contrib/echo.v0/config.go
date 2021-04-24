@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = echo.ExtRoot + ".opentracing"
+	root    = echo.PluginsRoot + ".opentracing"
 	enabled = root + ".enabled"
 )
 

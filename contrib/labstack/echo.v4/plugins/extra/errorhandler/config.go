@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = echo.ExtRoot + ".errorhandler.enabled"
+	enabled = echo.PluginsRoot + ".errorhandler.enabled"
 )
 
 func init() {

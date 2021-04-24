@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = echo.ExtRoot + ".recover.enabled"
+	enabled = echo.PluginsRoot + ".recover.enabled"
 )
 
 func init() {

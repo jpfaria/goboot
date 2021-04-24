@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = fiber.ExtRoot + ".status"
+	root    = fiber.PluginsRoot + ".status"
 	enabled = root + ".enabled"
 	route   = root + ".route"
 )

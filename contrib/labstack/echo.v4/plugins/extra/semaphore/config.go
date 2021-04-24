@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	semaphoreRoot = echo.ExtRoot + ".semaphore"
+	semaphoreRoot = echo.PluginsRoot + ".semaphore"
 	enabled       = semaphoreRoot + ".enabled"
 	limit         = semaphoreRoot + ".limit"
 )

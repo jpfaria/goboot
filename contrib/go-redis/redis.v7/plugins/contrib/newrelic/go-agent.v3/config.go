@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = redis.ExtRoot + ".newrelic"
+	root    = redis.PluginsRoot + ".newrelic"
 	enabled = root + ".enabled"
 )
 

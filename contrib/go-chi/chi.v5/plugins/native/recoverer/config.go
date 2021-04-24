@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = chi.ExtRoot + ".recover.enabled"
+	enabled = chi.PluginsRoot + ".recover.enabled"
 )
 
 func init() {

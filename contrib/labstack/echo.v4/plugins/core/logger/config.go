@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = echo.ExtRoot + ".logger"
+	root    = echo.PluginsRoot + ".logger"
 	enabled = root + ".enabled"
 	level   = root + ".level"
 )

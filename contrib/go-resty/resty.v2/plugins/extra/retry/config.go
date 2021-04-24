@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	root        = resty.ExtRoot + ".retry"
+	root        = resty.PluginsRoot + ".retry"
 	enabled     = root + ".enabled"
 	count       = root + ".count"
 	waitTime    = root + ".waitTime"

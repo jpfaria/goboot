@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root        = redis.ExtRoot + ".health"
+	root        = redis.PluginsRoot + ".health"
 	name        = root + ".name"
 	description = root + ".description"
 	required    = root + ".required"

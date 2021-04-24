@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root        = gocql.ExtRoot + ".health"
+	root        = gocql.PluginsRoot + ".health"
 	name        = root + ".name"
 	description = root + ".description"
 	required    = root + ".required"

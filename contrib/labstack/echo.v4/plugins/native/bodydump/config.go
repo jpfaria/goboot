@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = echo.ExtRoot + ".bodydump.enabled"
+	enabled = echo.PluginsRoot + ".bodydump.enabled"
 )
 
 func init() {

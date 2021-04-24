@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = chi.ExtRoot + ".status"
+	root    = chi.PluginsRoot + ".status"
 	enabled = root + ".enabled"
 	route   = root + ".route"
 )

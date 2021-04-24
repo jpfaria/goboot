@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	ConfigRoot = fiber.ExtRoot + ".prometheus"
+	ConfigRoot = fiber.PluginsRoot + ".prometheus"
 	enabled    = ConfigRoot + ".enabled"
 	route      = ConfigRoot + ".route"
 )

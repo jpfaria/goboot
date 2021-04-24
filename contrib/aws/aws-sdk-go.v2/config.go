@@ -16,7 +16,7 @@ const (
 	retryerRoot           = root + ".retryer"
 	retryerMaxAttempts    = retryerRoot + ".maxAttempts"
 	retryerHasRateLimit   = retryerRoot + ".hasRateLimit"
-	ExtRoot               = root + ".ext"
+	PluginsRoot           = root + ".plugins"
 	httpClientRoot        = root + ".httpClient"
 	maxIdleConnPerHost    = httpClientRoot + ".maxIdleConnPerHost"
 	maxIdleConn           = httpClientRoot + ".maxIdleConn"

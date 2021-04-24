@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root                       = echo.ExtRoot + ".newrelic"
+	root                       = echo.PluginsRoot + ".newrelic"
 	enabled                    = root + ".enabled"
 	middlewareRoot             = root + ".middleware"
 	middlewareRequestIDEnabled = middlewareRoot + ".requestId.enabled"

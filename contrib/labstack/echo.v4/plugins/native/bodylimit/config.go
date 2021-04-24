@@ -6,8 +6,8 @@ import (
 )
 
 const (
-	enabled = echo.ExtRoot + ".bodylimit.enabled"
-	size    = echo.ExtRoot + ".bodylimit.size"
+	enabled = echo.PluginsRoot + ".bodylimit.enabled"
+	size    = echo.PluginsRoot + ".bodylimit.size"
 )
 
 func init() {

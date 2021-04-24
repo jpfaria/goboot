@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = mongo.ExtRoot + ".datadog"
+	root    = mongo.PluginsRoot + ".datadog"
 	enabled = root + ".enabled"
 )
 

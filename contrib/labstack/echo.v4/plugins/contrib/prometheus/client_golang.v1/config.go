@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	ConfigRoot = echo.ExtRoot + ".prometheus"
+	ConfigRoot = echo.PluginsRoot + ".prometheus"
 	enabled    = ConfigRoot + ".enabled"
 	route      = ConfigRoot + ".route"
 )

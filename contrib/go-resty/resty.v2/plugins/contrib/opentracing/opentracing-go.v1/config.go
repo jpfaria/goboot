@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = resty.ExtRoot + ".opentracing"
+	root    = resty.PluginsRoot + ".opentracing"
 	enabled = root + ".enabled"
 )
 

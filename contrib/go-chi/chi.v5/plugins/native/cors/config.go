@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	root               = chi.ExtRoot + ".cors"
+	root               = chi.PluginsRoot + ".cors"
 	enabled            = root + ".enabled"
 	allowedOrigins     = root + ".allowed.origins"
 	allowedHeaders     = root + ".allowed.headers"

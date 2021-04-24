@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root        = godror.ExtRoot + ".health"
+	root        = godror.PluginsRoot + ".health"
 	name        = root + ".name"
 	description = root + ".description"
 	required    = root + ".required"
