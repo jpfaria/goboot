@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = chi.ExtRoot + ".stripslashes"
+	root    = chi.PluginsRoot + ".stripslashes"
 	enabled = root + ".enabled"
 )
 

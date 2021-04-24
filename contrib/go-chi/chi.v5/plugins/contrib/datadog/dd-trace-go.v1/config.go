@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = chi.ExtRoot + ".datadog"
+	root    = chi.PluginsRoot + ".datadog"
 	enabled = root + ".enabled"
 )
 

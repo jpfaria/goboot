@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = echo.ExtRoot + ".health"
+	root    = echo.PluginsRoot + ".health"
 	enabled = root + ".enabled"
 	route   = root + ".route"
 )

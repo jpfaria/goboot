@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = echo.ExtRoot + ".requestid.enabled"
+	enabled = echo.PluginsRoot + ".requestid.enabled"
 )
 
 func init() {

@@ -14,8 +14,8 @@ func NewClientWithOptions(ctx context.Context, o *Options) *fasthttp.Client {
 		NoDefaultUserAgentHeader:      o.NoDefaultUserAgentHeader, // Don't send: User-Agent: fasthttp
 		DialDualStack:                 o.DialDualStack,
 		MaxConnsPerHost:               o.MaxConnsPerHost,
-		MaxConnWaitTimeout:            o.MaxConnWaitTimeout,
 		MaxIdleConnDuration:           o.MaxIdleConnDuration,
+		MaxConnDuration:               o.MaxConnDuration,
 		MaxIdemponentCallAttempts:     o.MaxIdemponentCallAttempts,
 		ReadBufferSize:                o.ReadBufferSize,  // Make sure to set this big enough that your whole request can be read at once.
 		WriteBufferSize:               o.WriteBufferSize, // Same but for your response.
@@ -23,6 +23,7 @@ func NewClientWithOptions(ctx context.Context, o *Options) *fasthttp.Client {
 		WriteTimeout:                  o.WriteTimeout,
 		MaxResponseBodySize:           o.MaxResponseBodySize,
 		DisableHeaderNamesNormalizing: o.DisableHeaderNamesNormalizing, // If you set the case on your headers correctly you can enable this.
+		MaxConnWaitTimeout:            o.MaxConnWaitTimeout,
 	}
 
 	return client

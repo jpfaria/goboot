@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = client.ExtRoot + ".prometheus"
+	root    = client.PluginsRoot + ".prometheus"
 	enabled = root + ".enabled"
 )
 

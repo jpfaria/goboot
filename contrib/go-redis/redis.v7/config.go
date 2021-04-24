@@ -32,7 +32,7 @@ const (
 	readOnly           = root + ".cluster.readOnly"
 	routeByLatency     = root + ".cluster.routeByLatency"
 	routeRandomly      = root + ".cluster.routeRandomly"
-	ExtRoot            = root + ".ext"
+	PluginsRoot        = root + ".plugins"
 )
 
 func init() {

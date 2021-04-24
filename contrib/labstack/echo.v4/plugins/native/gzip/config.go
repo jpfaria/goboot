@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = echo.ExtRoot + ".gzip.enabled"
+	enabled = echo.PluginsRoot + ".gzip.enabled"
 )
 
 func init() {

@@ -1,6 +1,6 @@
 package chi
 
 const (
-	root    = "gi.chi"
-	ExtRoot = root + ".ext"
+	root        = "gi.chi"
+	PluginsRoot = root + ".plugins"
 )

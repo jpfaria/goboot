@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = echo.ExtRoot + ".datadog.enabled"
+	enabled = echo.PluginsRoot + ".datadog.enabled"
 )
 
 func init() {

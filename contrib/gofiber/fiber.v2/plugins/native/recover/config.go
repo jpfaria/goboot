@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = fiber.ExtRoot + ".recover.enabled"
+	enabled = fiber.PluginsRoot + ".recover.enabled"
 )
 
 func init() {

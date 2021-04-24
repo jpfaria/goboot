@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root        = mongo.ExtRoot + ".health"
+	root        = mongo.PluginsRoot + ".health"
 	name        = root + ".name"
 	description = root + ".description"
 	required    = root + ".required"

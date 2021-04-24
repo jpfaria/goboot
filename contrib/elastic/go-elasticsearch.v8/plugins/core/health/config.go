@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root        = elasticsearch.ExtRoot + ".health"
+	root        = elasticsearch.PluginsRoot + ".health"
 	name        = root + ".name"
 	description = root + ".description"
 	required    = root + ".required"

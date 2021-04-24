@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root        = client.ExtRoot + ".health"
+	root        = client.PluginsRoot + ".health"
 	name        = root + ".name"
 	description = root + ".description"
 	required    = root + ".required"

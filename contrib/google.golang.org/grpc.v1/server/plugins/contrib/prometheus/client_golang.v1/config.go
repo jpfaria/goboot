@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = server.ExtRoot + ".prometheus"
+	root    = server.PluginsRoot + ".prometheus"
 	enabled = root + ".enabled"
 	route   = root + ".route"
 )

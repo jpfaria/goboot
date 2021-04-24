@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root        = resty.ExtRoot + ".health"
+	root        = resty.PluginsRoot + ".health"
 	name        = root + ".name"
 	host        = root + ".host"
 	endpoint    = root + ".endpoint"

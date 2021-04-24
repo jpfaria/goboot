@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = chi.ExtRoot + ".prometheus"
+	root    = chi.PluginsRoot + ".prometheus"
 	enabled = root + ".enabled"
 	route   = root + ".route"
 )

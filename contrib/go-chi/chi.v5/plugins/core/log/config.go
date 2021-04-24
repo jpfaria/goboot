@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = chi.ExtRoot + ".logger"
+	root    = chi.PluginsRoot + ".logger"
 	enabled = root + ".enabled"
 	level   = root + ".level"
 )

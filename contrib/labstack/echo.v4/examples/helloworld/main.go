@@ -54,6 +54,9 @@ func Get(c e.Context) (err error) {
 func main() {
 
 	config.Load()
+	logrus.NewLogger()
+	//zap.NewLogger()
+	//zerolog.NewLogger()
 
 	c := Config{}
 
@@ -63,10 +66,6 @@ func main() {
 	}
 
 	ctx := context.Background()
-
-	//logrus.NewLogger()
-	//zap.NewLogger()
-	//zap.log.NewLogger()
 
 	info.AppName = "helloworld"
 

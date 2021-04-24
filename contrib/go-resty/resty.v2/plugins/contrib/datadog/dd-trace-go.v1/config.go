@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	ConfigRoot = girest.ExtRoot + ".datadog"
+	ConfigRoot = girest.PluginsRoot + ".datadog"
 	enabled    = ConfigRoot + ".enabled"
 )
 

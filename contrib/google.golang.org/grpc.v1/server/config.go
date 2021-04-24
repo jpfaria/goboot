@@ -10,7 +10,7 @@ const (
 	certFile             = root + ".tls.certFile"
 	keyFile              = root + ".tls.keyFile"
 	caFile               = root + ".tls.caFile"
-	ExtRoot              = root + ".ext"
+	PluginsRoot          = root + ".plugins"
 )
 
 func init() {

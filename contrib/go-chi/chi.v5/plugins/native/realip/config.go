@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = chi.ExtRoot + ".realip.enabled"
+	enabled = chi.PluginsRoot + ".realip.enabled"
 )
 
 func init() {

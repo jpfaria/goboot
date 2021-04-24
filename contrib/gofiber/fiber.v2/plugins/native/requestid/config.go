@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = fiber.ExtRoot + ".requestid.enabled"
+	enabled = fiber.PluginsRoot + ".requestid.enabled"
 )
 
 func init() {

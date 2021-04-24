@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = client.ExtRoot + ".datadog"
+	root    = client.PluginsRoot + ".datadog"
 	enabled = root + ".enabled"
 )
 

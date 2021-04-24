@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = fiber.ExtRoot + ".newrelic.enabled"
+	enabled = fiber.PluginsRoot + ".newrelic.enabled"
 )
 
 func init() {

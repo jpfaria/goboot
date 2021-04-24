@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = server.ExtRoot + ".newrelic"
+	root    = server.PluginsRoot + ".newrelic"
 	enabled = root + ".enabled"
 )
 

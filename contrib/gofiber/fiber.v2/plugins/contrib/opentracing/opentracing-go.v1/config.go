@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = fiber.ExtRoot + ".opentracing.enabled"
+	enabled = fiber.PluginsRoot + ".opentracing.enabled"
 )
 
 func init() {

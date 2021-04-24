@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root    = resty.ExtRoot + ".logger"
+	root    = resty.PluginsRoot + ".logger"
 	enabled = root + ".enabled"
 	level   = root + ".level"
 )

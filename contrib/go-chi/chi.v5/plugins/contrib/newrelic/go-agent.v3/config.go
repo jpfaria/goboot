@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	root               = chi.ExtRoot + ".newrelic"
+	root               = chi.PluginsRoot + ".newrelic"
 	enabled            = root + ".enabled"
 	webResponseEnabled = root + ".webresponse.enabled"
 )

@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = chi.ExtRoot + ".requestid.enabled"
+	enabled = chi.PluginsRoot + ".requestid.enabled"
 )
 
 func init() {

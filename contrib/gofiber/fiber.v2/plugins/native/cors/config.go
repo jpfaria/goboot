@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	root             = fiber.ExtRoot + ".cors"
+	root             = fiber.PluginsRoot + ".cors"
 	enabled          = root + ".enabled"
 	allowOrigins     = root + ".allow.origins"
 	allowHeaders     = root + ".allow.headers"

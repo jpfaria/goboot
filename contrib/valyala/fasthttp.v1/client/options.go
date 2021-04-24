@@ -17,6 +17,7 @@ type Options struct {
 	ReadTimeout                   time.Duration
 	WriteTimeout                  time.Duration
 	MaxIdleConnDuration           time.Duration
+	MaxConnDuration               time.Duration
 	DisableHeaderNamesNormalizing bool
 	DialDualStack                 bool
 	MaxResponseBodySize           int

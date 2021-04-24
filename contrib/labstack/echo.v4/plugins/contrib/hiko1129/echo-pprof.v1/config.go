@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	enabled = echo.ExtRoot + ".pprof.enabled"
+	enabled = echo.PluginsRoot + ".pprof.enabled"
 )
 
 func init() {
