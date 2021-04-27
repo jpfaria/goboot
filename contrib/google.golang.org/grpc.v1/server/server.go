@@ -107,11 +107,10 @@ func NewServerWithOptions(ctx context.Context, opt *Options, exts ...Ext) *Serve
 	}
 
 	serverOptions = append(serverOptions, grpc.MaxConcurrentStreams(uint32(opt.MaxConcurrentStreams)))
+	serverOptions = append(serverOptions, grpc.InitialConnWindowSize(opt.InitialConnWindowSize))
+	serverOptions = append(serverOptions, grpc.InitialWindowSize(opt.InitialWindowSize))
 
 	s = grpc.NewServer(serverOptions...)
-
-	// grpc.InitialConnWindowSize(100)
-	// grpc.InitialWindowSize(100)
 
 	return &Server{
 		server:  s,
