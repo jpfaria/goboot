@@ -6,7 +6,6 @@ import (
 
 	"github.com/b2wdigital/goignite/v2/contrib/net/http/client"
 	"github.com/b2wdigital/goignite/v2/core/config"
-	"github.com/lann/builder"
 )
 
 type Options struct {
@@ -27,47 +26,19 @@ type Options struct {
 	HttpClient                  client.Options
 }
 
-type optionsBuilder builder.Builder
+func NewOptionsWithPath(path string) (opts *Options, err error) {
 
-func (b optionsBuilder) AccessKeyId(value string) optionsBuilder {
-	return builder.Set(b, "AccessKeyId", value).(optionsBuilder)
-}
-
-func (b optionsBuilder) SecretAccessKey(value string) optionsBuilder {
-	return builder.Set(b, "SecretAccessKey", value).(optionsBuilder)
-}
-
-func (b optionsBuilder) DefaultRegion(value string) optionsBuilder {
-	return builder.Set(b, "DefaultRegion", value).(optionsBuilder)
-}
-
-func (b optionsBuilder) SessionToken(value string) optionsBuilder {
-	return builder.Set(b, "SessionToken", value).(optionsBuilder)
-}
-
-func (b optionsBuilder) MaxAttempts(value int) optionsBuilder {
-	return builder.Set(b, "MaxAttempts", value).(optionsBuilder)
-}
-
-func (b optionsBuilder) HasRateLimit(value bool) optionsBuilder {
-	return builder.Set(b, "HasRateLimit", value).(optionsBuilder)
-}
-
-func (b optionsBuilder) Build() Options {
-	return builder.GetStruct(b).(Options)
-}
-
-var OptionsBuilder = builder.Register(optionsBuilder{}, Options{}).(optionsBuilder)
-
-func NewOptionsWithPath(path string) (*Options, error) {
-	o := &Options{}
-
-	err := config.UnmarshalWithPath(path, o)
+	opts, err = NewOptions()
 	if err != nil {
 		return nil, err
 	}
 
-	return o, nil
+	err = config.UnmarshalWithPath(path, opts)
+	if err != nil {
+		return nil, err
+	}
+
+	return opts, nil
 }
 
 func NewOptions() (*Options, error) {
