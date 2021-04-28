@@ -1,4 +1,4 @@
-package log
+package logger
 
 import (
 	"github.com/b2wdigital/goignite/v2/contrib/go-resty/resty.v2"
