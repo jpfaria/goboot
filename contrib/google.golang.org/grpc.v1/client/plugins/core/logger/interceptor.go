@@ -1,4 +1,4 @@
-package log
+package logger
 
 import (
 	"time"
@@ -29,55 +29,54 @@ func m(logger log.Logger) (method l) {
 	return method
 }
 
-func streamInterceptor() grpc.StreamServerInterceptor {
-	return func(srv interface{}, stream grpc.ServerStream, info *grpc.StreamServerInfo, handler grpc.StreamHandler) error {
-		logger := log.FromContext(stream.Context())
-
-		start := time.Now()
-		wrapper := &recvWrapper{stream}
-		err := handler(srv, wrapper)
-
-		logger = logger.WithFields(log.Fields{
-			"method": info.FullMethod,
-
-			"duration": time.Since(start),
-		})
-
-		if err != nil {
-			logger = logger.WithField("error", err.Error())
-		}
-
-		xx := m(logger)
-		xx("stream request received")
-		return err
-	}
-}
-
-func unaryInterceptor() grpc.UnaryServerInterceptor {
-	return func(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp interface{}, err error) {
+func streamInterceptor() grpc.StreamClientInterceptor {
+	return func(ctx context.Context, desc *grpc.StreamDesc, cc *grpc.ClientConn, method string, streamer grpc.Streamer, opts ...grpc.CallOption) (grpc.ClientStream, error) {
 
 		logger := log.FromContext(ctx)
 
 		start := time.Now()
-		resp, err = handler(ctx, req)
+		clientStream, err := streamer(ctx, desc, cc, method, opts...)
 
 		logger = logger.WithFields(log.Fields{
-			"method":   info.FullMethod,
+			"method":   method,
 			"duration": time.Since(start),
-			"response": resp,
-			"req":      req,
 		})
 
 		if err != nil {
 			logger = logger.WithField("error", err.Error())
 		}
 
-		xx := m(logger)
-		xx("unary request received")
-		return resp, err
+		x := m(logger)
+
+		x("call stream")
+
+		return clientStream, err
 	}
 }
 
-type recvWrapper struct {
-	grpc.ServerStream
+func unaryInterceptor() grpc.UnaryClientInterceptor {
+	return func(ctx context.Context, method string, req, reply interface{}, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
+
+		logger := log.FromContext(ctx)
+
+		start := time.Now()
+		err := invoker(ctx, method, req, reply, cc, opts...)
+
+		logger = logger.WithFields(log.Fields{
+			"method":   method,
+			"duration": time.Since(start),
+			"request":  req,
+			"response": reply,
+		})
+
+		if err != nil {
+			logger = logger.WithField("error", err.Error())
+		}
+
+		x := m(logger)
+
+		x("call unary")
+
+		return err
+	}
 }

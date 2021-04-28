@@ -20,10 +20,10 @@ func main() {
 		Message: "mensagem da requisição",
 	}
 
-	options := client.OptionsBuilder.
-		Host("localhost").
-		Port(9090).
-		Build()
+	options := client.Options{
+		Host: "localhost",
+		Port: 9090,
+	}
 
 	conn := client.NewClientConnWithOptions(ctx, &options)
 	defer conn.Close()

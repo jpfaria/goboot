@@ -23,14 +23,14 @@ func main() {
 
 	logger := log.FromContext(ctx)
 
-	options := health.OptionsBuilder.
-		Host("http://google.com").
-		Endpoint("/status").
-		Name("Google Inc").
-		Description("Search Engine").
-		Required(true).
-		Enabled(true).
-		Build()
+	options := health.Options{
+		Name:        "Google Inc",
+		Host:        "http://google.com",
+		Endpoint:    "/status",
+		Enabled:     true,
+		Description: "Search Engine",
+		Required:    true,
+	}
 
 	healthIntegrator := health.NewIntegrator(&options)
 

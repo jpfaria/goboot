@@ -12,7 +12,6 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/channelz/service"
 	"google.golang.org/grpc/credentials"
-	"google.golang.org/grpc/encoding/gzip"
 	"google.golang.org/grpc/reflection"
 )
 
@@ -35,11 +34,6 @@ func NewServer(ctx context.Context, exts ...Ext) *Server {
 func NewServerWithOptions(ctx context.Context, opt *Options, exts ...Ext) *Server {
 
 	logger := log.FromContext(ctx)
-
-	err := gzip.SetLevel(9)
-	if err != nil {
-		logger.Fatalf("could not set level: %s", err.Error())
-	}
 
 	var s *grpc.Server
 
@@ -103,15 +97,17 @@ func NewServerWithOptions(ctx context.Context, opt *Options, exts ...Ext) *Serve
 	}
 
 	for _, ext := range exts {
-		serverOptions = append(serverOptions, ext(ctx)...)
+		sopts := ext(ctx)
+		if sopts != nil {
+			serverOptions = append(serverOptions, ext(ctx)...)
+		}
 	}
 
 	serverOptions = append(serverOptions, grpc.MaxConcurrentStreams(uint32(opt.MaxConcurrentStreams)))
+	serverOptions = append(serverOptions, grpc.InitialConnWindowSize(opt.InitialConnWindowSize))
+	serverOptions = append(serverOptions, grpc.InitialWindowSize(opt.InitialWindowSize))
 
 	s = grpc.NewServer(serverOptions...)
-
-	// grpc.InitialConnWindowSize(100)
-	// grpc.InitialWindowSize(100)
 
 	return &Server{
 		server:  s,

@@ -1,12 +1,12 @@
-package log
+package logger
 
 import (
-	"github.com/b2wdigital/goignite/v2/contrib/google.golang.org/grpc.v1/server"
+	"github.com/b2wdigital/goignite/v2/contrib/go-resty/resty.v2"
 	"github.com/b2wdigital/goignite/v2/core/config"
 )
 
 const (
-	root    = server.PluginsRoot + ".logger"
+	root    = resty.PluginsRoot + ".logger"
 	enabled = root + ".enabled"
 	level   = root + ".level"
 )

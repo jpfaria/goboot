@@ -3,9 +3,11 @@ package server
 import "github.com/b2wdigital/goignite/v2/core/config"
 
 type Options struct {
-	Port                 int
-	MaxConcurrentStreams int64
-	TLS                  struct {
+	Port                  int
+	MaxConcurrentStreams  int64
+	InitialWindowSize     int32
+	InitialConnWindowSize int32
+	TLS                   struct {
 		Enabled  bool
 		CertFile string
 		KeyFile  string
