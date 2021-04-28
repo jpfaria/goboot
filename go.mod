@@ -22,7 +22,7 @@ require (
 	github.com/go-playground/validator/v10 v10.4.1
 	github.com/go-redis/redis/v7 v7.4.0
 	github.com/go-redis/redis/v8 v8.5.0
-	github.com/go-resty/resty/v2 v2.5.0
+	github.com/go-resty/resty/v2 v2.6.0
 	github.com/gobeam/stringy v0.0.0-20200717095810-8a3637503f62
 	github.com/gocql/gocql v0.0.0-20210129204804-4364a4b9cfdd
 	github.com/godror/godror v0.23.1
@@ -75,7 +75,7 @@ require (
 	go.uber.org/zap v1.16.0
 	gocloud.dev v0.22.0
 	gocloud.dev/pubsub/kafkapubsub v0.22.0
-	golang.org/x/net v0.0.0-20210119194325-5f4716e94777
+	golang.org/x/net v0.0.0-20210405180319-a5a99cb37ef4
 	golang.org/x/sync v0.0.0-20201207232520-09787c993a3a
 	google.golang.org/grpc v1.35.0
 	gopkg.in/DataDog/dd-trace-go.v1 v1.30.0-rc.1
