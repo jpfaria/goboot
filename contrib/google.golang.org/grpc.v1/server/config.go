@@ -16,14 +16,12 @@ const (
 )
 
 func init() {
-
 	config.Add(port, 9090, "server grpc port")
 	config.Add(maxConcurrentStreams, 5000, "server grpc max concurrent streams")
 	config.Add(initialWindowSize, 1024*1024*2, "sets the initial window size for a stream")
 	config.Add(initialConnWindowSize, 1024*1024*2, "sets the initial window size for a connection")
-	config.Add(tlsEnabled, false, "Use TLS - required for HTTP2.")
-	config.Add(certFile, "", "Path to the CRT/PEM file.")
-	config.Add(keyFile, "", "Path to the private key file.")
-	config.Add(caFile, "", "Path to the certificate authority (CA).")
-
+	config.Add(tlsEnabled, false, "use TLS - required for HTTP2.")
+	config.Add(certFile, "", "path to the CRT/PEM file.")
+	config.Add(keyFile, "", "path to the private key file.")
+	config.Add(caFile, "", "path to the certificate authority (CA).")
 }
