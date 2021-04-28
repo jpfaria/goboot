@@ -1,4 +1,4 @@
-package log
+package logger
 
 import (
 	"context"
@@ -7,10 +7,10 @@ import (
 	"google.golang.org/grpc"
 )
 
-func Register(ctx context.Context) []grpc.DialOption {
+func Register(ctx context.Context) ([]grpc.DialOption, []grpc.CallOption) {
 
 	if !IsEnabled() {
-		return nil
+		return nil, nil
 	}
 
 	logger := log.FromContext(ctx)
@@ -19,5 +19,5 @@ func Register(ctx context.Context) []grpc.DialOption {
 	return []grpc.DialOption{
 		grpc.WithChainStreamInterceptor(streamInterceptor()),
 		grpc.WithChainUnaryInterceptor(unaryInterceptor()),
-	}
+	}, nil
 }
