@@ -9,9 +9,9 @@ import (
 	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/plugins/core/health"
 	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/plugins/core/log"
 	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/plugins/core/status"
-	tid2 "github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/plugins/extra/tid"
-	realip2 "github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/plugins/native/realip"
-	recoverer2 "github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/plugins/native/recoverer"
+	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/plugins/extra/tid"
+	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/plugins/native/realip"
+	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5/plugins/native/recoverer"
 	"github.com/b2wdigital/goignite/v2/contrib/sirupsen/logrus.v1"
 	"github.com/b2wdigital/goignite/v2/core/config"
 	"github.com/b2wdigital/goignite/v2/core/info"
@@ -66,9 +66,9 @@ func main() {
 	info.AppName = "helloworld"
 
 	srv := chi.NewServer(ctx,
-		tid2.Register,
-		recoverer2.Register,
-		realip2.Register,
+		tid.Register,
+		recoverer.Register,
+		realip.Register,
 		log.Register,
 		status.Register,
 		health.Register)

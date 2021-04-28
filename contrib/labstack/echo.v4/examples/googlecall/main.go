@@ -10,9 +10,9 @@ import (
 	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/plugins/core/health"
 	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/plugins/core/logger"
 	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/plugins/core/status"
-	cors2 "github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/plugins/native/cors"
-	gzip2 "github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/plugins/native/gzip"
-	requestid2 "github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/plugins/native/requestid"
+	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/plugins/native/cors"
+	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/plugins/native/gzip"
+	"github.com/b2wdigital/goignite/v2/contrib/labstack/echo.v4/plugins/native/requestid"
 	"github.com/b2wdigital/goignite/v2/core/config"
 	"github.com/b2wdigital/goignite/v2/core/info"
 	"github.com/b2wdigital/goignite/v2/core/log"
@@ -48,13 +48,13 @@ func NewHandler(client *r.Client) *Handler {
 
 func (h *Handler) Get(c e.Context) (err error) {
 
-	log := log.FromContext(c.Request().Context())
+	logger := log.FromContext(c.Request().Context())
 
 	request := h.client.R().EnableTrace()
 
 	_, err = request.Get("http://google.com")
 	if err != nil {
-		log.Fatalf(err.Error())
+		logger.Fatalf(err.Error())
 	}
 
 	resp := Response{
@@ -63,7 +63,7 @@ func (h *Handler) Get(c e.Context) (err error) {
 
 	err = config.Unmarshal(&resp)
 	if err != nil {
-		log.Errorf(err.Error())
+		logger.Errorf(err.Error())
 	}
 
 	return echo.JSON(c, http.StatusOK, resp, err)
@@ -87,20 +87,20 @@ func main() {
 	info.AppName = "google"
 
 	srv := echo.NewServer(ctx,
-		cors2.Register,
-		requestid2.Register,
-		gzip2.Register,
+		cors.Register,
+		requestid.Register,
+		gzip.Register,
 		logger.Register,
 		status.Register,
 		health.Register)
 
 	// instance.AddErrorAdvice(customErrors.InvalidPayload, 400)
 
-	o := resty.OptionsBuilder.
-		Host("http://www.google.com").
-		Build()
+	options := resty.Options{
+		Host: "http://www.google.com",
+	}
 
-	client := resty.NewClientWithOptions(ctx, &o)
+	client := resty.NewClientWithOptions(ctx, &options)
 
 	handler := NewHandler(client)
 	srv.Instance().GET(c.App.Endpoint.Google, handler.Get)
