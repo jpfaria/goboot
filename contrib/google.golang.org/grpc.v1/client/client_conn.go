@@ -14,7 +14,7 @@ import (
 	"google.golang.org/grpc/keepalive"
 )
 
-type Ext func(ctx context.Context) []grpc.DialOption
+type Ext func(ctx context.Context) ([]grpc.DialOption, []grpc.CallOption)
 
 func NewClientConnWithOptions(ctx context.Context, options *Options, exts ...Ext) *grpc.ClientConn {
 
@@ -36,19 +36,11 @@ func NewClientConnWithOptions(ctx context.Context, options *Options, exts ...Ext
 
 	callOpts := make([]grpc.CallOption, 0)
 
-	if options.Compressor.Enabled {
-		callOpts = append(callOpts, grpc.UseCompressor(options.Compressor.Name))
-	}
-
 	opts = append(opts, grpc.WithInitialWindowSize(options.InitialWindowSize))
 	opts = append(opts, grpc.WithInitialConnWindowSize(options.InitialConnWindowSize))
 
 	if options.Block {
 		opts = append(opts, grpc.WithBlock())
-	}
-
-	if len(callOpts) > 0 {
-		opts = append(opts, grpc.WithDefaultCallOptions(callOpts...))
 	}
 
 	if options.HostOverwrite != "" {
@@ -72,8 +64,19 @@ func NewClientConnWithOptions(ctx context.Context, options *Options, exts ...Ext
 	}))
 
 	for _, ext := range exts {
-		opts = append(opts, ext(ctx)...)
+		dopts, copts := ext(ctx)
+		if dopts != nil {
+			opts = append(opts, dopts...)
+		}
+		if copts != nil {
+			callOpts = append(callOpts, copts...)
+		}
 	}
+
+	if len(callOpts) > 0 {
+		opts = append(opts, grpc.WithDefaultCallOptions(callOpts...))
+	}
+
 	conn, err = grpc.Dial(serverAddr, opts...)
 
 	if err != nil {

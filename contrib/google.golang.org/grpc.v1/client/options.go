@@ -7,10 +7,6 @@ import (
 )
 
 type Options struct {
-	Compressor struct {
-		Enabled bool
-		Name    string
-	}
 	TLS struct {
 		Enabled            bool
 		CertFile           string

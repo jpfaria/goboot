@@ -9,10 +9,10 @@ import (
 	"google.golang.org/grpc"
 )
 
-func Register(ctx context.Context) []grpc.DialOption {
+func Register(ctx context.Context) ([]grpc.DialOption, []grpc.CallOption) {
 
 	if !IsEnabled() || !newrelic.IsEnabled() {
-		return nil
+		return nil, nil
 	}
 
 	logger := log.FromContext(ctx)
@@ -21,6 +21,6 @@ func Register(ctx context.Context) []grpc.DialOption {
 	return []grpc.DialOption{
 		grpc.WithChainUnaryInterceptor(nrgrpc.UnaryClientInterceptor),
 		grpc.WithChainStreamInterceptor(nrgrpc.StreamClientInterceptor),
-	}
+	}, nil
 
 }

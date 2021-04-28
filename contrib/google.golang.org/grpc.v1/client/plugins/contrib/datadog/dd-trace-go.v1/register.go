@@ -9,10 +9,10 @@ import (
 	grpctrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/google.golang.org/grpc"
 )
 
-func Register(ctx context.Context) []grpc.DialOption {
+func Register(ctx context.Context) ([]grpc.DialOption, []grpc.CallOption) {
 
 	if !IsEnabled() || !datadog.IsEnabled() {
-		return nil
+		return nil, nil
 	}
 
 	logger := log.FromContext(ctx)
@@ -21,6 +21,6 @@ func Register(ctx context.Context) []grpc.DialOption {
 	return []grpc.DialOption{
 		grpc.WithChainUnaryInterceptor(grpctrace.UnaryClientInterceptor()),
 		grpc.WithChainStreamInterceptor(grpctrace.StreamClientInterceptor()),
-	}
+	}, nil
 
 }

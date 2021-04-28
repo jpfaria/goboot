@@ -9,10 +9,10 @@ import (
 	"google.golang.org/grpc"
 )
 
-func Register(ctx context.Context) []grpc.DialOption {
+func Register(ctx context.Context) ([]grpc.DialOption, []grpc.CallOption) {
 
 	if !IsEnabled() {
-		return nil
+		return nil, nil
 	}
 
 	logger := log.FromContext(ctx)
@@ -23,6 +23,6 @@ func Register(ctx context.Context) []grpc.DialOption {
 	return []grpc.DialOption{
 		grpc.WithChainUnaryInterceptor(otgrpc.OpenTracingClientInterceptor(tracer)),
 		grpc.WithChainStreamInterceptor(otgrpc.OpenTracingStreamClientInterceptor(tracer)),
-	}
+	}, nil
 
 }

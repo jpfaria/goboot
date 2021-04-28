@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/b2wdigital/goignite/v2/core/config"
-	"google.golang.org/grpc/encoding/gzip"
 )
 
 const (
@@ -14,9 +13,6 @@ const (
 	block                        = ".block"
 	initialWindowSize            = ".initialWindowSize"
 	initialConnWindowSize        = ".initialConnWindowSize"
-	compressorRoot               = ".compressor"
-	compressorEnabled            = compressorRoot + ".enabled"
-	compressorName               = compressorRoot + ".name"
 	tlsRoot                      = ".tls"
 	tlsEnabled                   = tlsRoot + ".enabled"
 	certFile                     = tlsRoot + ".certFile"
@@ -48,8 +44,6 @@ func ConfigAdd(path string) {
 	config.Add(path+block, false, "makes caller of Dial blocks until the underlying connection is up. Without this, Dial returns immediately and connecting the server happens in background")
 	config.Add(path+initialWindowSize, 1024*1024*2, "sets the initial window size for a stream")
 	config.Add(path+initialConnWindowSize, 1024*1024*2, "sets the initial window size for a connection")
-	config.Add(path+compressorEnabled, false, "enable/disable compressor")
-	config.Add(path+compressorName, gzip.Name, "compressor name")
 	config.Add(path+tlsEnabled, false, "enable/disable tls")
 	config.Add(path+certFile, "", "defines cert file")
 	config.Add(path+keyFile, "", "defines key file")
