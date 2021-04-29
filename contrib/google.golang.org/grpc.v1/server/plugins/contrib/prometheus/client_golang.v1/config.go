@@ -8,7 +8,6 @@ import (
 const (
 	root    = server.PluginsRoot + ".prometheus"
 	enabled = root + ".enabled"
-	route   = root + ".route"
 )
 
 func init() {
