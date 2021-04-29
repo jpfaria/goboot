@@ -4,7 +4,7 @@ go 1.16
 
 require (
 	github.com/Microsoft/go-winio v0.4.16 // indirect
-	github.com/ansrivas/fiberprometheus/v2 v2.1.1
+	github.com/ansrivas/fiberprometheus/v2 v2.1.2
 	github.com/aws/aws-sdk-go-v2 v1.3.2
 	github.com/aws/aws-sdk-go-v2/config v1.1.5
 	github.com/aws/aws-sdk-go-v2/credentials v1.1.5
@@ -26,7 +26,7 @@ require (
 	github.com/gobeam/stringy v0.0.0-20200717095810-8a3637503f62
 	github.com/gocql/gocql v0.0.0-20210129204804-4364a4b9cfdd
 	github.com/godror/godror v0.23.1
-	github.com/gofiber/fiber/v2 v2.5.0
+	github.com/gofiber/fiber/v2 v2.6.0
 	github.com/golang/protobuf v1.4.3
 	github.com/googleapis/gnostic v0.5.4 // indirect
 	github.com/graphql-go/graphql v0.7.9
