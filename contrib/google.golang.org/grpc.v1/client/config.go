@@ -21,7 +21,7 @@ const (
 	insecureSkipVerify           = tlsRoot + ".insecureSkipVerify"
 	hostOverwrite                = ".hostOverwrite"
 	port                         = ".port"
-	keepaliveRoot                = ".keepaliveRoot"
+	keepaliveRoot                = ".keepalive"
 	keepaliveTime                = keepaliveRoot + ".time"
 	keepaliveTimeout             = keepaliveRoot + ".timeout"
 	keepalivePermitWithoutStream = keepaliveRoot + ".permitWithoutStream"
