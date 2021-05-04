@@ -14,7 +14,7 @@ import (
 
 type params struct {
 	fx.In
-	Exts []fiber.Ext `optional:"true"`
+	Plugins []fiber.Plugin `optional:"true"`
 }
 
 var once sync.Once
@@ -28,7 +28,7 @@ func Module() fx.Option {
 			contextfx.Module(),
 			fx.Provide(
 				func(ctx context.Context, p params) *fiber.Server {
-					return fiber.NewServer(ctx, p.Exts...)
+					return fiber.NewServer(ctx, p.Plugins...)
 				},
 				func(srv *fiber.Server) *f.App {
 					return srv.App()

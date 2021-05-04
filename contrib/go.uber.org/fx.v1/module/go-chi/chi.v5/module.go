@@ -16,7 +16,7 @@ var once sync.Once
 
 type params struct {
 	fx.In
-	Exts []chi.Ext `optional:"true"`
+	Plugins []chi.Plugin `optional:"true"`
 }
 
 func Module() fx.Option {
@@ -28,7 +28,7 @@ func Module() fx.Option {
 			contextfx.Module(),
 			fx.Provide(
 				func(ctx context.Context, p params) *chi.Server {
-					return chi.NewServer(ctx, p.Exts...)
+					return chi.NewServer(ctx, p.Plugins...)
 				},
 				func(srv *chi.Server) *c.Mux {
 					return srv.Mux()

@@ -9,9 +9,9 @@ import (
 	"github.com/go-resty/resty/v2"
 )
 
-type Ext func(context.Context, *resty.Client) error
+type Plugin func(context.Context, *resty.Client) error
 
-func NewClientWithOptions(ctx context.Context, options *Options, exts ...Ext) *resty.Client {
+func NewClientWithOptions(ctx context.Context, options *Options, plugins ...Plugin) *resty.Client {
 
 	logger := log.FromContext(ctx)
 
@@ -47,8 +47,8 @@ func NewClientWithOptions(ctx context.Context, options *Options, exts ...Ext) *r
 		SetHostURL(options.Host).
 		SetCloseConnection(options.CloseConnection)
 
-	for _, ext := range exts {
-		if err := ext(ctx, client); err != nil {
+	for _, plugin := range plugins {
+		if err := plugin(ctx, client); err != nil {
 			panic(err)
 		}
 	}

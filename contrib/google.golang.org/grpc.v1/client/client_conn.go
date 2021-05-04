@@ -14,9 +14,9 @@ import (
 	"google.golang.org/grpc/keepalive"
 )
 
-type Ext func(ctx context.Context) ([]grpc.DialOption, []grpc.CallOption)
+type Plugin func(ctx context.Context) ([]grpc.DialOption, []grpc.CallOption)
 
-func NewClientConnWithOptions(ctx context.Context, options *Options, exts ...Ext) *grpc.ClientConn {
+func NewClientConnWithOptions(ctx context.Context, options *Options, plugins ...Plugin) *grpc.ClientConn {
 
 	var err error
 	var conn *grpc.ClientConn
@@ -63,8 +63,8 @@ func NewClientConnWithOptions(ctx context.Context, options *Options, exts ...Ext
 		PermitWithoutStream: options.Keepalive.PermitWithoutStream,
 	}))
 
-	for _, ext := range exts {
-		dopts, copts := ext(ctx)
+	for _, plugin := range plugins {
+		dopts, copts := plugin(ctx)
 		if dopts != nil {
 			opts = append(opts, dopts...)
 		}

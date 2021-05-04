@@ -7,9 +7,9 @@ import (
 	"github.com/go-redis/redis/v7"
 )
 
-type Ext func(context.Context, *redis.Client) error
+type Plugin func(context.Context, *redis.Client) error
 
-func NewClient(ctx context.Context, exts ...Ext) (*redis.Client, error) {
+func NewClient(ctx context.Context, plugins ...Plugin) (*redis.Client, error) {
 
 	logger := log.FromContext(ctx)
 
@@ -18,10 +18,10 @@ func NewClient(ctx context.Context, exts ...Ext) (*redis.Client, error) {
 		logger.Fatalf(err.Error())
 	}
 
-	return NewClientWithOptions(ctx, o, exts...)
+	return NewClientWithOptions(ctx, o, plugins...)
 }
 
-func NewClientWithOptions(ctx context.Context, o *Options, exts ...Ext) (client *redis.Client, err error) {
+func NewClientWithOptions(ctx context.Context, o *Options, plugins ...Plugin) (client *redis.Client, err error) {
 
 	logger := log.FromContext(ctx)
 
@@ -36,8 +36,8 @@ func NewClientWithOptions(ctx context.Context, o *Options, exts ...Ext) (client 
 		return nil, ping.Err()
 	}
 
-	for _, ext := range exts {
-		if err := ext(ctx, client); err != nil {
+	for _, plugin := range plugins {
+		if err := plugin(ctx, client); err != nil {
 			panic(err)
 		}
 	}

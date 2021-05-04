@@ -14,7 +14,7 @@ import (
 
 type params struct {
 	fx.In
-	Exts []echo.Ext `optional:"true"`
+	Plugins []echo.Plugin `optional:"true"`
 }
 
 var once sync.Once
@@ -28,7 +28,7 @@ func Module() fx.Option {
 			contextfx.Module(),
 			fx.Provide(
 				func(ctx context.Context, p params) *echo.Server {
-					return echo.NewServer(ctx, p.Exts...)
+					return echo.NewServer(ctx, p.Plugins...)
 				},
 				func(srv *echo.Server) *e.Echo {
 					return srv.Instance()
