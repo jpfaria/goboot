@@ -8,9 +8,9 @@ import (
 	_ "github.com/godror/godror"
 )
 
-type Ext func(context.Context, *sql.DB) error
+type Plugin func(context.Context, *sql.DB) error
 
-func NewDBWithOptions(ctx context.Context, o *Options, exts ...Ext) (db *sql.DB, err error) {
+func NewDBWithOptions(ctx context.Context, o *Options, plugins ...Plugin) (db *sql.DB, err error) {
 
 	logger := log.FromContext(ctx)
 
@@ -28,8 +28,8 @@ func NewDBWithOptions(ctx context.Context, o *Options, exts ...Ext) (db *sql.DB,
 		return nil, err
 	}
 
-	for _, ext := range exts {
-		if err := ext(ctx, db); err != nil {
+	for _, plugin := range plugins {
+		if err := plugin(ctx, db); err != nil {
 			panic(err)
 		}
 	}
@@ -39,7 +39,7 @@ func NewDBWithOptions(ctx context.Context, o *Options, exts ...Ext) (db *sql.DB,
 	return db, err
 }
 
-func NewDB(ctx context.Context, exts ...Ext) (*sql.DB, error) {
+func NewDB(ctx context.Context, plugins ...Plugin) (*sql.DB, error) {
 
 	logger := log.FromContext(ctx)
 
@@ -48,5 +48,5 @@ func NewDB(ctx context.Context, exts ...Ext) (*sql.DB, error) {
 		logger.Fatalf(err.Error())
 	}
 
-	return NewDBWithOptions(ctx, o, exts...)
+	return NewDBWithOptions(ctx, o, plugins...)
 }

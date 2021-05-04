@@ -11,9 +11,9 @@ import (
 	"github.com/elastic/go-elasticsearch/v8/esapi"
 )
 
-type Ext func(context.Context, *elasticsearch.Client) error
+type Plugin func(context.Context, *elasticsearch.Client) error
 
-func NewClient(ctx context.Context, exts ...Ext) (*elasticsearch.Client, error) {
+func NewClient(ctx context.Context, plugins ...Plugin) (*elasticsearch.Client, error) {
 
 	logger := log.FromContext(ctx)
 
@@ -22,10 +22,10 @@ func NewClient(ctx context.Context, exts ...Ext) (*elasticsearch.Client, error) 
 		logger.Fatalf(err.Error())
 	}
 
-	return NewClientWithOptions(ctx, o, exts...)
+	return NewClientWithOptions(ctx, o, plugins...)
 }
 
-func NewClientWithOptions(ctx context.Context, o *Options, exts ...Ext) (client *elasticsearch.Client, err error) {
+func NewClientWithOptions(ctx context.Context, o *Options, plugins ...Plugin) (client *elasticsearch.Client, err error) {
 
 	logger := log.FromContext(ctx)
 
@@ -63,8 +63,8 @@ func NewClientWithOptions(ctx context.Context, o *Options, exts ...Ext) (client 
 		return nil, err
 	}
 
-	for _, ext := range exts {
-		if err := ext(ctx, client); err != nil {
+	for _, plugin := range plugins {
+		if err := plugin(ctx, client); err != nil {
 			panic(err)
 		}
 	}

@@ -8,27 +8,27 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-type Ext func(context.Context, *fiber.App) error
+type Plugin func(context.Context, *fiber.App) error
 
 type Server struct {
 	app     *fiber.App
 	options *Options
 }
 
-func NewServer(ctx context.Context, exts ...Ext) *Server {
+func NewServer(ctx context.Context, plugins ...Plugin) *Server {
 	options, err := NewOptions()
 	if err != nil {
 		panic(err)
 	}
-	return NewServerWithOptions(ctx, options, exts...)
+	return NewServerWithOptions(ctx, options, plugins...)
 }
 
-func NewServerWithOptions(ctx context.Context, options *Options, exts ...Ext) *Server {
+func NewServerWithOptions(ctx context.Context, options *Options, plugins ...Plugin) *Server {
 
 	app := fiber.New(*options.Config)
 
-	for _, ext := range exts {
-		if err := ext(ctx, app); err != nil {
+	for _, plugin := range plugins {
+		if err := plugin(ctx, app); err != nil {
 			panic(err)
 		}
 	}

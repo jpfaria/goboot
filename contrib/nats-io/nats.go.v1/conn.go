@@ -7,9 +7,9 @@ import (
 	"github.com/nats-io/nats.go"
 )
 
-type Ext func(context.Context, *nats.Conn) error
+type Plugin func(context.Context, *nats.Conn) error
 
-func NewConnWithOptions(ctx context.Context, options *Options, exts ...Ext) (*nats.Conn, error) {
+func NewConnWithOptions(ctx context.Context, options *Options, plugins ...Plugin) (*nats.Conn, error) {
 
 	logger := log.FromContext(ctx)
 
@@ -26,8 +26,8 @@ func NewConnWithOptions(ctx context.Context, options *Options, exts ...Ext) (*na
 		return nil, err
 	}
 
-	for _, ext := range exts {
-		if err := ext(ctx, conn); err != nil {
+	for _, plugin := range plugins {
+		if err := plugin(ctx, conn); err != nil {
 			panic(err)
 		}
 	}
@@ -37,7 +37,7 @@ func NewConnWithOptions(ctx context.Context, options *Options, exts ...Ext) (*na
 	return conn, nil
 }
 
-func NewConn(ctx context.Context, exts ...Ext) (*nats.Conn, error) {
+func NewConn(ctx context.Context, plugins ...Plugin) (*nats.Conn, error) {
 
 	logger := log.FromContext(ctx)
 
@@ -46,7 +46,7 @@ func NewConn(ctx context.Context, exts ...Ext) (*nats.Conn, error) {
 		logger.Fatalf(err.Error())
 	}
 
-	return NewConnWithOptions(ctx, o, exts...)
+	return NewConnWithOptions(ctx, o, plugins...)
 }
 
 func disconnectedErrHandler(nc *nats.Conn, err error) {

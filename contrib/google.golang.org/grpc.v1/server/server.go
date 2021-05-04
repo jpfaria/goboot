@@ -15,7 +15,7 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-type Ext func(ctx context.Context) []grpc.ServerOption
+type Plugin func(ctx context.Context) []grpc.ServerOption
 
 type Server struct {
 	server           *grpc.Server
@@ -23,15 +23,15 @@ type Server struct {
 	options          *Options
 }
 
-func NewServer(ctx context.Context, exts ...Ext) *Server {
+func NewServer(ctx context.Context, plugins ...Plugin) *Server {
 	opt, err := NewOptions()
 	if err != nil {
 		panic(err)
 	}
-	return NewServerWithOptions(ctx, opt, exts...)
+	return NewServerWithOptions(ctx, opt, plugins...)
 }
 
-func NewServerWithOptions(ctx context.Context, opt *Options, exts ...Ext) *Server {
+func NewServerWithOptions(ctx context.Context, opt *Options, plugins ...Plugin) *Server {
 
 	logger := log.FromContext(ctx)
 
@@ -96,10 +96,10 @@ func NewServerWithOptions(ctx context.Context, opt *Options, exts ...Ext) *Serve
 		serverOptions = append(serverOptions, grpc.Creds(creds))
 	}
 
-	for _, ext := range exts {
-		sopts := ext(ctx)
+	for _, plugin := range plugins {
+		sopts := plugin(ctx)
 		if sopts != nil {
-			serverOptions = append(serverOptions, ext(ctx)...)
+			serverOptions = append(serverOptions, sopts...)
 		}
 	}
 

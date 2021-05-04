@@ -26,22 +26,22 @@ type ConfigRouter struct {
 	Pattern     string
 }
 
-type Ext func(context.Context) (*Config, error)
+type Plugin func(context.Context) (*Config, error)
 
 type Server struct {
 	mux  *chi.Mux
 	opts *server.Options
 }
 
-func NewServer(ctx context.Context, exts ...Ext) *Server {
+func NewServer(ctx context.Context, plugins ...Plugin) *Server {
 	opt, err := server.NewOptions()
 	if err != nil {
 		panic(err)
 	}
-	return NewServerWithOptions(ctx, opt, exts...)
+	return NewServerWithOptions(ctx, opt, plugins...)
 }
 
-func NewServerWithOptions(ctx context.Context, opts *server.Options, exts ...Ext) *Server {
+func NewServerWithOptions(ctx context.Context, opts *server.Options, plugins ...Plugin) *Server {
 
 	mux := chi.NewRouter()
 
@@ -49,12 +49,12 @@ func NewServerWithOptions(ctx context.Context, opts *server.Options, exts ...Ext
 	var handlers []ConfigHandler
 	var routes []ConfigRouter
 
-	for _, ext := range exts {
+	for _, plugin := range plugins {
 
 		var err error
 		var config *Config
 
-		if config, err = ext(ctx); err != nil {
+		if config, err = plugin(ctx); err != nil {
 			panic(err)
 		}
 

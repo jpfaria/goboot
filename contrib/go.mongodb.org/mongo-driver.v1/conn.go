@@ -17,9 +17,9 @@ type Conn struct {
 	Database      *mongo.Database
 }
 
-type Ext func(context.Context, *Conn) error
+type Plugin func(context.Context, *Conn) error
 
-func NewConn(ctx context.Context, exts ...Ext) (*Conn, error) {
+func NewConn(ctx context.Context, plugins ...Plugin) (*Conn, error) {
 
 	logger := log.FromContext(ctx)
 
@@ -28,10 +28,10 @@ func NewConn(ctx context.Context, exts ...Ext) (*Conn, error) {
 		logger.Fatalf(err.Error())
 	}
 
-	return NewConnWithOptions(ctx, o, exts...)
+	return NewConnWithOptions(ctx, o, plugins...)
 }
 
-func NewConnWithOptions(ctx context.Context, o *Options, exts ...Ext) (conn *Conn, err error) {
+func NewConnWithOptions(ctx context.Context, o *Options, plugins ...Plugin) (conn *Conn, err error) {
 
 	co := clientOptions(ctx, o)
 
@@ -49,8 +49,8 @@ func NewConnWithOptions(ctx context.Context, o *Options, exts ...Ext) (conn *Con
 		Database:      database,
 	}
 
-	for _, ext := range exts {
-		if err := ext(ctx, conn); err != nil {
+	for _, plugin := range plugins {
+		if err := plugin(ctx, conn); err != nil {
 			panic(err)
 		}
 	}

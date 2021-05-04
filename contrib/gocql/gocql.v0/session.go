@@ -8,9 +8,9 @@ import (
 	"github.com/gocql/gocql"
 )
 
-type Ext func(context.Context, *gocql.Session) error
+type Plugin func(context.Context, *gocql.Session) error
 
-func NewSession(ctx context.Context, exts ...Ext) (*gocql.Session, error) {
+func NewSession(ctx context.Context, plugins ...Plugin) (*gocql.Session, error) {
 
 	logger := log.FromContext(ctx)
 
@@ -19,10 +19,10 @@ func NewSession(ctx context.Context, exts ...Ext) (*gocql.Session, error) {
 		logger.Fatalf(err.Error())
 	}
 
-	return NewSessionWithOptions(ctx, o, exts...)
+	return NewSessionWithOptions(ctx, o, plugins...)
 }
 
-func NewSessionWithOptions(ctx context.Context, o *Options, exts ...Ext) (session *gocql.Session, err error) {
+func NewSessionWithOptions(ctx context.Context, o *Options, plugins ...Plugin) (session *gocql.Session, err error) {
 
 	logger := log.FromContext(ctx)
 
@@ -110,8 +110,8 @@ func NewSessionWithOptions(ctx context.Context, o *Options, exts ...Ext) (sessio
 		return nil, err
 	}
 
-	for _, ext := range exts {
-		if err := ext(ctx, session); err != nil {
+	for _, plugin := range plugins {
+		if err := plugin(ctx, session); err != nil {
 			panic(err)
 		}
 	}

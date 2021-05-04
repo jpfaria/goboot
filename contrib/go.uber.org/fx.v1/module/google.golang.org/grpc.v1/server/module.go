@@ -14,7 +14,7 @@ import (
 
 type params struct {
 	fx.In
-	Exts []server.Ext `optional:"true"`
+	Plugins []server.Plugin `optional:"true"`
 }
 
 var once sync.Once
@@ -28,7 +28,7 @@ func Module() fx.Option {
 			contextfx.Module(),
 			fx.Provide(
 				func(ctx context.Context, p params) *server.Server {
-					return server.NewServer(ctx, p.Exts...)
+					return server.NewServer(ctx, p.Plugins...)
 				},
 				func(srv *server.Server) *grpc.Server {
 					return srv.Server()

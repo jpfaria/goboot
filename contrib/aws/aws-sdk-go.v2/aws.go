@@ -11,19 +11,19 @@ import (
 	"github.com/b2wdigital/goignite/v2/core/log"
 )
 
-type Ext func(context.Context, *aws.Config) error
+type Plugin func(context.Context, *aws.Config) error
 
-func NewConfig(ctx context.Context, exts ...Ext) aws.Config {
+func NewConfig(ctx context.Context, plugins ...Plugin) aws.Config {
 
 	o, err := NewOptions()
 	if err != nil {
 		panic(err)
 	}
 
-	return NewConfigWithOptions(ctx, o, exts...)
+	return NewConfigWithOptions(ctx, o, plugins...)
 }
 
-func NewConfigWithOptions(ctx context.Context, options *Options, exts ...Ext) aws.Config {
+func NewConfigWithOptions(ctx context.Context, options *Options, plugins ...Plugin) aws.Config {
 
 	logger := log.FromContext(ctx)
 
@@ -41,8 +41,8 @@ func NewConfigWithOptions(ctx context.Context, options *Options, exts ...Ext) aw
 	cfg.Retryer = retryerConfig(options)
 	cfg.HTTPClient = httpClient
 
-	for _, ext := range exts {
-		if err := ext(ctx, &cfg); err != nil {
+	for _, plugin := range plugins {
+		if err := plugin(ctx, &cfg); err != nil {
 			panic(err)
 		}
 	}

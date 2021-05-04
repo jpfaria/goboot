@@ -8,21 +8,21 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-type clusterExt func(context.Context, *redis.ClusterClient) error
+type clusterPlugin func(context.Context, *redis.ClusterClient) error
 
-func NewClusterClient(ctx context.Context, exts ...clusterExt) (*redis.ClusterClient, error) {
+func NewClusterClient(ctx context.Context, plugins ...clusterPlugin) (*redis.ClusterClient, error) {
 
 	logger := log.FromContext(ctx)
 
-	o, err := NewOptionsWithPath()
+	o, err := NewOptions()
 	if err != nil {
 		logger.Fatalf(err.Error())
 	}
 
-	return NewClusterClientWithOptions(ctx, o, exts...)
+	return NewClusterClientWithOptions(ctx, o, plugins...)
 }
 
-func NewClusterClientWithOptions(ctx context.Context, o *Options, exts ...clusterExt) (client *redis.ClusterClient, err error) {
+func NewClusterClientWithOptions(ctx context.Context, o *Options, plugins ...clusterPlugin) (client *redis.ClusterClient, err error) {
 
 	logger := log.FromContext(ctx)
 
@@ -52,8 +52,8 @@ func NewClusterClientWithOptions(ctx context.Context, o *Options, exts ...cluste
 		return nil, ping.Err()
 	}
 
-	for _, ext := range exts {
-		if err := ext(ctx, client); err != nil {
+	for _, plugin := range plugins {
+		if err := plugin(ctx, client); err != nil {
 			panic(err)
 		}
 	}

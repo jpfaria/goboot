@@ -8,30 +8,30 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-type Ext func(context.Context, *echo.Echo) error
+type Plugin func(context.Context, *echo.Echo) error
 
 type Server struct {
 	instance *echo.Echo
 	options  *Options
 }
 
-func NewServer(ctx context.Context, exts ...Ext) *Server {
+func NewServer(ctx context.Context, plugins ...Plugin) *Server {
 	opt, err := NewOptions()
 	if err != nil {
 		panic(err)
 	}
-	return NewServerWithOptions(ctx, opt, exts...)
+	return NewServerWithOptions(ctx, opt, plugins...)
 }
 
-func NewServerWithOptions(ctx context.Context, opt *Options, exts ...Ext) *Server {
+func NewServerWithOptions(ctx context.Context, opt *Options, plugins ...Plugin) *Server {
 
 	instance := echo.New()
 
 	instance.HideBanner = opt.HideBanner
 	instance.Logger = WrapLogger(log.GetLogger())
 
-	for _, ext := range exts {
-		if err := ext(ctx, instance); err != nil {
+	for _, plugin := range plugins {
+		if err := plugin(ctx, instance); err != nil {
 			panic(err)
 		}
 	}
