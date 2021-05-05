@@ -3,13 +3,13 @@ package cors
 import (
 	"net/http"
 
-	"github.com/b2wdigital/goignite/v2/contrib/gofiber/fiber.v2"
+	gifiber "github.com/b2wdigital/goignite/v2/contrib/gofiber/fiber.v2"
 	"github.com/b2wdigital/goignite/v2/core/config"
 	"github.com/gofiber/fiber/v2"
 )
 
 const (
-	root             = fiber.PluginsRoot + ".cors"
+	root             = gifiber.PluginsRoot + ".cors"
 	enabled          = root + ".enabled"
 	allowOrigins     = root + ".allow.origins"
 	allowHeaders     = root + ".allow.headers"
