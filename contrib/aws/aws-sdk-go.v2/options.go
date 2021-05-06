@@ -38,8 +38,6 @@ func NewOptionsWithPath(path string) (opts *Options, err error) {
 		return nil, err
 	}
 
-	loadEnv(opts)
-
 	return opts, nil
 }
 
@@ -50,13 +48,6 @@ func NewOptions() (*Options, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	loadEnv(opts)
-
-	return opts, nil
-}
-
-func loadEnv(opts *Options) {
 
 	if v := os.Getenv("AWS_ACCESS_KEY_ID"); v != "" {
 		opts.AccessKeyId = v
@@ -78,4 +69,5 @@ func loadEnv(opts *Options) {
 		opts.SessionToken = v
 	}
 
+	return opts, nil
 }
