@@ -41,8 +41,6 @@ func NewOptionsWithPath(path string) (opts *Options, err error) {
 		return nil, err
 	}
 
-	loadEnv(opts)
-
 	return opts, nil
 }
 
@@ -55,41 +53,35 @@ func NewOptions() (*Options, error) {
 		return nil, err
 	}
 
-	loadEnv(opts)
-
-	return opts, nil
-}
-
-func loadEnv(o *Options) {
-
 	if v := info.AppName; v != "" {
-		o.Service = v
+		opts.Service = v
 	}
 
 	if v := os.Getenv("DD_SERVICE"); v != "" {
-		o.Service = v
+		opts.Service = v
 	}
 
 	if v := os.Getenv("DD_AGENT_HOST"); v != "" {
-		o.Host = v
+		opts.Host = v
 	}
 
 	if v := os.Getenv("DD_TRACE_AGENT_PORT"); v != "" {
-		o.Port = v
+		opts.Port = v
 	}
 
 	if v := os.Getenv("DD_ENV"); v != "" {
-		o.Env = v
+		opts.Env = v
 	}
 
 	if v := info.Version; v != "" {
-		o.Version = v
+		opts.Version = v
 	}
 
 	if v := os.Getenv("DD_VERSION"); v != "" {
-		o.Version = v
+		opts.Version = v
 	}
 
-	o.Addr = net.JoinHostPort(o.Host, o.Port)
+	opts.Addr = net.JoinHostPort(opts.Host, opts.Port)
 
+	return opts, nil
 }
