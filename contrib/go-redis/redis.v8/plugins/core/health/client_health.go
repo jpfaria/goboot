@@ -5,27 +5,27 @@ import (
 
 	"github.com/b2wdigital/goignite/v2/core/health"
 	"github.com/b2wdigital/goignite/v2/core/log"
-	"github.com/go-redis/redis/v7"
+	"github.com/go-redis/redis/v8"
 )
 
-type ClientIntegrator struct {
+type ClientHealth struct {
 	options *Options
 }
 
-func NewClientIntegrator(options *Options) *ClientIntegrator {
-	return &ClientIntegrator{options: options}
+func NewClientHealthWithOptions(options *Options) *ClientHealth {
+	return &ClientHealth{options: options}
 }
 
-func NewDefaultClientIntegrator() *ClientIntegrator {
-	o, err := DefaultOptions()
+func NewClientHealth() *ClientHealth {
+	o, err := NewOptions()
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
 
-	return NewClientIntegrator(o)
+	return NewClientHealthWithOptions(o)
 }
 
-func (i *ClientIntegrator) Register(ctx context.Context, client *redis.Client) error {
+func (i *ClientHealth) Register(ctx context.Context, client *redis.Client) error {
 
 	logger := log.FromContext(ctx).WithTypeOf(*i)
 

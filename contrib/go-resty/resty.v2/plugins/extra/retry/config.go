@@ -21,7 +21,3 @@ func init() {
 	config.Add(waitTime, 200*time.Millisecond, "defines global retry wait time")
 	config.Add(maxWaitTime, 2*time.Second, "defines global max retry wait time")
 }
-
-func IsEnabled() bool {
-	return config.Bool(enabled)
-}

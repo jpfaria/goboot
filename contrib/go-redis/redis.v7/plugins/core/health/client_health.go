@@ -8,30 +8,30 @@ import (
 	"github.com/go-redis/redis/v7"
 )
 
-type ClusterIntegrator struct {
+type ClientHealth struct {
 	options *Options
 }
 
-func NewClusterIntegrate(options *Options) *ClusterIntegrator {
-	return &ClusterIntegrator{options: options}
+func NewClientHealthWithOptions(options *Options) *ClientHealth {
+	return &ClientHealth{options: options}
 }
 
-func NewDefaultClusterIntegrator() *ClusterIntegrator {
-	o, err := DefaultOptions()
+func NewClientHealth() *ClientHealth {
+	o, err := NewOptions()
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
 
-	return NewClusterIntegrate(o)
+	return NewClientHealthWithOptions(o)
 }
 
-func (i *ClusterIntegrator) Register(ctx context.Context, client *redis.ClusterClient) error {
+func (i *ClientHealth) Register(ctx context.Context, client *redis.Client) error {
 
 	logger := log.FromContext(ctx).WithTypeOf(*i)
 
 	logger.Trace("integrating redis in health")
 
-	checker := NewClusterClientChecker(client)
+	checker := NewClientChecker(client)
 	hc := health.NewHealthChecker(i.options.Name, i.options.Description, checker, i.options.Required, i.options.Enabled)
 	health.Add(hc)
 

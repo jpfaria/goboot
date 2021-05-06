@@ -32,7 +32,7 @@ func main() {
 		logger.Errorf(err.Error())
 	}
 
-	healthIntegrator := health.NewDefaultIntegrator()
+	healthIntegrator := health.NewHealth()
 
 	cligoogle := resty.NewClientWithOptions(ctx, googleopt, healthIntegrator.Register)
 	reqgoogle := cligoogle.R()

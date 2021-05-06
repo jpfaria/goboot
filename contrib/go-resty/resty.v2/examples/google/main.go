@@ -32,7 +32,7 @@ func main() {
 		Required:    true,
 	}
 
-	healthIntegrator := health.NewIntegrator(&options)
+	healthIntegrator := health.NewHealth(&options)
 
 	client := resty.NewClientWithOptions(ctx, &resty.Options{}, healthIntegrator.Register)
 	request := client.R().EnableTrace()

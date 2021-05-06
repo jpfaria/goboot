@@ -1,16 +1,16 @@
-package health
+package retry
 
 import (
+	"time"
+
 	"github.com/b2wdigital/goignite/v2/core/config"
 )
 
 type Options struct {
-	Name        string
-	Host        string
-	Endpoint    string
 	Enabled     bool
-	Description string
-	Required    bool
+	Count       int
+	WaitTime    time.Duration
+	MaxWaitTime time.Duration
 }
 
 func NewOptions() (*Options, error) {
