@@ -41,17 +41,26 @@ func NewOptionsWithPath(path string) (opts *Options, err error) {
 		return nil, err
 	}
 
+	loadEnv(opts)
+
 	return opts, nil
 }
 
 func NewOptions() (*Options, error) {
 
-	o := &Options{}
+	opts := &Options{}
 
-	err := config.UnmarshalWithPath(root, o)
+	err := config.UnmarshalWithPath(root, opts)
 	if err != nil {
 		return nil, err
 	}
+
+	loadEnv(opts)
+
+	return opts, nil
+}
+
+func loadEnv(o *Options) {
 
 	if v := info.AppName; v != "" {
 		o.Service = v
@@ -83,5 +92,4 @@ func NewOptions() (*Options, error) {
 
 	o.Addr = net.JoinHostPort(o.Host, o.Port)
 
-	return o, nil
 }
