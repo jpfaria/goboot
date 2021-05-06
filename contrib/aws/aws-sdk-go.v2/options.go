@@ -28,21 +28,7 @@ type Options struct {
 
 func NewOptionsWithPath(path string) (opts *Options, err error) {
 
-	opts, err = NewOptions()
-	if err != nil {
-		return nil, err
-	}
-
 	err = config.UnmarshalWithPath(path, opts)
-	if err != nil {
-		return nil, err
-	}
-
-	return opts, nil
-}
-
-func NewOptions() (*Options, error) {
-	o, err := NewOptionsWithPath(root)
 	if err != nil {
 		return nil, err
 	}
@@ -65,6 +51,15 @@ func NewOptions() (*Options, error) {
 
 	if v := os.Getenv("AWS_SESSION_TOKEN"); v != "" {
 		o.SessionToken = v
+	}
+
+	return opts, nil
+}
+
+func NewOptions() (*Options, error) {
+	o, err := NewOptionsWithPath(root)
+	if err != nil {
+		return nil, err
 	}
 
 	return o, nil
