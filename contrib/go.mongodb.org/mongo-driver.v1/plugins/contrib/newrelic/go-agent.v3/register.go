@@ -7,23 +7,24 @@ import (
 	newrelic "github.com/b2wdigital/goignite/v2/contrib/newrelic/go-agent.v3"
 	"github.com/b2wdigital/goignite/v2/core/log"
 	"github.com/newrelic/go-agent/v3/integrations/nrmongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func Register(ctx context.Context, conn *mongo.Conn) error {
+func Register(ctx context.Context) (mongo.ClientOptionsPlugin, mongo.ClientPlugin) {
 
 	if !IsEnabled() || !newrelic.IsEnabled() {
-		return nil
+		return nil, nil
 	}
 
-	logger := log.FromContext(ctx)
+	return func(ctx context.Context, options *options.ClientOptions) error {
+		logger := log.FromContext(ctx)
 
-	logger.Trace("integrating mongo in newrelic")
+		logger.Trace("integrating mongo in newrelic")
 
-	nrMon := nrmongo.NewCommandMonitor(nil)
+		options.SetMonitor(nrmongo.NewCommandMonitor(nil))
 
-	conn.ClientOptions.SetMonitor(nrMon)
+		logger.Debug("mongo successfully integrated in newrelic")
 
-	logger.Debug("mongo successfully integrated in newrelic")
-
-	return nil
+		return nil
+	}, nil
 }

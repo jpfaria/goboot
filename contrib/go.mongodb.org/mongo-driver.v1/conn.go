@@ -17,7 +17,10 @@ type Conn struct {
 	Database      *mongo.Database
 }
 
-type Plugin func(context.Context, *Conn) error
+type ClientOptionsPlugin func(context.Context, *options.ClientOptions) error
+type ClientPlugin func(context.Context, *mongo.Client) error
+
+type Plugin func(context.Context) (ClientOptionsPlugin, ClientPlugin)
 
 func NewConn(ctx context.Context, plugins ...Plugin) (*Conn, error) {
 
@@ -33,7 +36,28 @@ func NewConn(ctx context.Context, plugins ...Plugin) (*Conn, error) {
 
 func NewConnWithOptions(ctx context.Context, o *Options, plugins ...Plugin) (conn *Conn, err error) {
 
+	logger := log.FromContext(ctx)
+
+	var clientOptionsPlugins []ClientOptionsPlugin
+	var clientPlugins []ClientPlugin
+
+	for _, plugin := range plugins {
+		clientOptionsPlugin, clientPlugin := plugin(ctx)
+		if clientOptionsPlugin != nil {
+			clientOptionsPlugins = append(clientOptionsPlugins, clientOptionsPlugin)
+		}
+		if clientPlugin != nil {
+			clientPlugins = append(clientPlugins, clientPlugin)
+		}
+	}
+
 	co := clientOptions(ctx, o)
+
+	for _, clientOptionsPlugin := range clientOptionsPlugins {
+		if err := clientOptionsPlugin(ctx, co); err != nil {
+			logger.Fatalf(err.Error())
+		}
+	}
 
 	var client *mongo.Client
 	var database *mongo.Database
@@ -43,16 +67,16 @@ func NewConnWithOptions(ctx context.Context, o *Options, plugins ...Plugin) (con
 		return nil, err
 	}
 
+	for _, clientPlugin := range clientPlugins {
+		if err := clientPlugin(ctx, client); err != nil {
+			logger.Fatalf(err.Error())
+		}
+	}
+
 	conn = &Conn{
 		ClientOptions: co,
 		Client:        client,
 		Database:      database,
-	}
-
-	for _, plugin := range plugins {
-		if err := plugin(ctx, conn); err != nil {
-			panic(err)
-		}
 	}
 
 	return conn, err

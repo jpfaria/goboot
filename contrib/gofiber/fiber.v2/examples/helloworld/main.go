@@ -4,15 +4,13 @@ import (
 	"context"
 	"net/http"
 
-	"github.com/b2wdigital/goignite/v2/contrib/go-chi/chi.v5"
 	"github.com/b2wdigital/goignite/v2/contrib/gofiber/fiber.v2"
 	"github.com/b2wdigital/goignite/v2/contrib/gofiber/fiber.v2/plugins/native/cors"
 	"github.com/b2wdigital/goignite/v2/contrib/gofiber/fiber.v2/plugins/native/etag"
-	"github.com/b2wdigital/goignite/v2/contrib/sirupsen/logrus.v1"
 	"github.com/b2wdigital/goignite/v2/core/config"
 	"github.com/b2wdigital/goignite/v2/core/info"
 	"github.com/b2wdigital/goignite/v2/core/log"
-	"github.com/b2wdigital/goignite/v2/core/server"
+	"github.com/b2wdigital/goignite/v2/core/log/logger"
 	f "github.com/gofiber/fiber/v2"
 )
 
@@ -34,9 +32,16 @@ type Response struct {
 	Message string
 }
 
-func Get(c *f.Ctx) (err error) {
+type Handler struct {
+}
 
-	logger := log.FromContext(context.Background())
+func NewHandler() *Handler {
+	return &Handler{}
+}
+
+func (h *Handler) Get(c *f.Ctx) (err error) {
+
+	l := log.FromContext(context.Background())
 
 	resp := Response{
 		Message: "Hello World!!",
@@ -44,7 +49,7 @@ func Get(c *f.Ctx) (err error) {
 
 	err = config.Unmarshal(&resp)
 	if err != nil {
-		logger.Errorf(err.Error())
+		l.Errorf(err.Error())
 	}
 
 	return c.Status(http.StatusOK).JSON(resp)
@@ -63,19 +68,16 @@ func main() {
 
 	ctx := context.Background()
 
-	logrus.NewLogger()
+	logger.New()
 
 	info.AppName = "helloworld"
+
+	handler := &Handler{}
 
 	fiberSrv := fiber.NewServer(ctx,
 		cors.Register,
 		etag.Register)
 
-	fiberSrv.App().Get(c.App.Endpoint.Helloworld, Get)
-
+	fiberSrv.App().Get(c.App.Endpoint.Helloworld, handler.Get)
 	fiberSrv.Serve(ctx)
-
-	chiSrv := chi.NewServer(ctx)
-
-	server.Serve(ctx, fiberSrv, chiSrv)
 }
