@@ -9,24 +9,24 @@ import (
 	m "go.mongodb.org/mongo-driver/mongo"
 )
 
-type Integrator struct {
+type Health struct {
 	options *Options
 }
 
-func NewIntegrator(options *Options) *Integrator {
-	return &Integrator{options: options}
+func NewHealthWithOptions(options *Options) *Health {
+	return &Health{options: options}
 }
 
-func NewDefaultIntegrator() *Integrator {
-	o, err := DefaultOptions()
+func NewHealth() *Health {
+	o, err := NewOptions()
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
 
-	return NewIntegrator(o)
+	return NewHealthWithOptions(o)
 }
 
-func (i *Integrator) Register(ctx context.Context) (mongo.ClientOptionsPlugin, mongo.ClientPlugin) {
+func (i *Health) Register(ctx context.Context) (mongo.ClientOptionsPlugin, mongo.ClientPlugin) {
 
 	logger := log.WithTypeOf(*i)
 

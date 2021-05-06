@@ -10,9 +10,25 @@ import (
 	r "github.com/go-resty/resty/v2"
 )
 
-func Register(ctx context.Context, client *r.Client) error {
+type Retry struct {
+	options *Options
+}
 
-	if !IsEnabled() {
+func NewRetryWithOptions(options *Options) *Retry {
+	return &Retry{options: options}
+}
+
+func NewRetry() *Retry {
+	o, err := NewOptions()
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+	return NewRetryWithOptions(o)
+}
+
+func (p *Retry) Register(ctx context.Context, client *r.Client) error {
+
+	if !p.options.Enabled {
 		return nil
 	}
 

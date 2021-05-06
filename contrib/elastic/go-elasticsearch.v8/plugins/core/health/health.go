@@ -8,25 +8,23 @@ import (
 	"github.com/elastic/go-elasticsearch/v8"
 )
 
-type Integrator struct {
+type Health struct {
 	options *Options
 }
 
-func NewIntegrator(options *Options) *Integrator {
-	return &Integrator{options: options}
+func NewHealthWithOptions(options *Options) *Health {
+	return &Health{options: options}
 }
 
-func NewDefaultIntegrator() *Integrator {
-
-	options, err := DefaultOptions()
+func NewHealth() *Health {
+	o, err := NewOptions()
 	if err != nil {
-		log.Panic(err)
+		log.Fatalf(err.Error())
 	}
 
-	return &Integrator{options: options}
+	return NewHealthWithOptions(o)
 }
-
-func (i *Integrator) Register(ctx context.Context, client *elasticsearch.Client) error {
+func (i *Health) Register(ctx context.Context, client *elasticsearch.Client) error {
 
 	logger := log.FromContext(ctx).WithTypeOf(*i)
 

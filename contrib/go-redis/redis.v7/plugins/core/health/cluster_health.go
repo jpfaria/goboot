@@ -5,27 +5,27 @@ import (
 
 	"github.com/b2wdigital/goignite/v2/core/health"
 	"github.com/b2wdigital/goignite/v2/core/log"
-	"github.com/go-redis/redis/v8"
+	"github.com/go-redis/redis/v7"
 )
 
-type ClusterIntegrator struct {
+type ClusterHealth struct {
 	options *Options
 }
 
-func NewClusterIntegrate(options *Options) *ClusterIntegrator {
-	return &ClusterIntegrator{options: options}
+func NewClusterHealthWithOptions(options *Options) *ClusterHealth {
+	return &ClusterHealth{options: options}
 }
 
-func NewDefaultClusterIntegrator() *ClusterIntegrator {
-	o, err := DefaultOptions()
+func NewClusterHealth() *ClusterHealth {
+	o, err := NewOptions()
 	if err != nil {
 		log.Fatalf(err.Error())
 	}
 
-	return NewClusterIntegrate(o)
+	return NewClusterHealthWithOptions(o)
 }
 
-func (i *ClusterIntegrator) Register(ctx context.Context, client *redis.ClusterClient) error {
+func (i *ClusterHealth) Register(ctx context.Context, client *redis.ClusterClient) error {
 
 	logger := log.FromContext(ctx).WithTypeOf(*i)
 
