@@ -28,39 +28,54 @@ type Options struct {
 
 func NewOptionsWithPath(path string) (opts *Options, err error) {
 
+	opts, err = NewOptions()
+	if err != nil {
+		return nil, err
+	}
+
 	err = config.UnmarshalWithPath(path, opts)
 	if err != nil {
 		return nil, err
 	}
 
-	if v := os.Getenv("AWS_ACCESS_KEY_ID"); v != "" {
-		o.AccessKeyId = v
-	}
-
-	if v := os.Getenv("AWS_SECRET_ACCESS_KEY"); v != "" {
-		o.SecretAccessKey = v
-	}
-
-	if v := os.Getenv("AWS_DEFAULT_REGION"); v != "" {
-		o.DefaultRegion = v
-	}
-
-	if v := os.Getenv("AWS_DEFAULT_ACCOUNT_NUMBER"); v != "" {
-		o.DefaultAccountNumber = v
-	}
-
-	if v := os.Getenv("AWS_SESSION_TOKEN"); v != "" {
-		o.SessionToken = v
-	}
+	loadEnv(opts)
 
 	return opts, nil
 }
 
 func NewOptions() (*Options, error) {
-	o, err := NewOptionsWithPath(root)
+	opts := &Options{}
+
+	err := config.UnmarshalWithPath(root, opts)
 	if err != nil {
 		return nil, err
 	}
 
-	return o, nil
+	loadEnv(opts)
+
+	return opts, nil
+}
+
+func loadEnv(opts *Options) {
+
+	if v := os.Getenv("AWS_ACCESS_KEY_ID"); v != "" {
+		opts.AccessKeyId = v
+	}
+
+	if v := os.Getenv("AWS_SECRET_ACCESS_KEY"); v != "" {
+		opts.SecretAccessKey = v
+	}
+
+	if v := os.Getenv("AWS_DEFAULT_REGION"); v != "" {
+		opts.DefaultRegion = v
+	}
+
+	if v := os.Getenv("AWS_DEFAULT_ACCOUNT_NUMBER"); v != "" {
+		opts.DefaultAccountNumber = v
+	}
+
+	if v := os.Getenv("AWS_SESSION_TOKEN"); v != "" {
+		opts.SessionToken = v
+	}
+
 }
