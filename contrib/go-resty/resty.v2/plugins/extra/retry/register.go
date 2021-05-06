@@ -3,13 +3,14 @@ package retry
 import (
 	"context"
 	"net/http"
+	"time"
 
 	"github.com/b2wdigital/goignite/v2/core/config"
 	"github.com/b2wdigital/goignite/v2/core/log"
-	"github.com/go-resty/resty/v2"
+	r "github.com/go-resty/resty/v2"
 )
 
-func Register(ctx context.Context, client *resty.Client) error {
+func Register(ctx context.Context, client *r.Client) error {
 
 	if !IsEnabled() {
 		return nil
@@ -23,26 +24,14 @@ func Register(ctx context.Context, client *resty.Client) error {
 		SetRetryWaitTime(config.Duration(waitTime)).
 		SetRetryMaxWaitTime(config.Duration(maxWaitTime)).
 		AddRetryCondition(statusCodeRetryCondition).
-		AddRetryCondition(
-			func(r *resty.Response, err error) bool {
-
-				timeout := client.GetClient().Timeout
-
-				if r.Time() > timeout {
-					return true
-				}
-
-				return false
-			})
-
-	addTimeoutRetryCondition(client)
+		AddRetryCondition(addTimeoutRetryCondition(client.GetClient().Timeout))
 
 	logger.Debug("retry successfully configured in resty")
 
 	return nil
 }
 
-func statusCodeRetryCondition(r *resty.Response, err error) bool {
+func statusCodeRetryCondition(r *r.Response, err error) bool {
 	switch statusCode := r.StatusCode(); statusCode {
 
 	case http.StatusTooManyRequests:
@@ -58,17 +47,14 @@ func statusCodeRetryCondition(r *resty.Response, err error) bool {
 	}
 }
 
-func addTimeoutRetryCondition(client *resty.Client) {
+func addTimeoutRetryCondition(timeout time.Duration) func(r *r.Response, err error) bool {
 
-	client.AddRetryCondition(
-		func(r *resty.Response, err error) bool {
+	return func(resp *r.Response, err error) bool {
 
-			timeout := client.GetClient().Timeout
+		if resp.Time() > timeout {
+			return true
+		}
 
-			if r.Time() > timeout {
-				return true
-			}
-
-			return false
-		})
+		return false
+	}
 }
