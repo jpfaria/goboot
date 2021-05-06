@@ -21,7 +21,7 @@ func Register(ctx context.Context) (mongo.ClientOptionsPlugin, mongo.ClientPlugi
 
 		logger.Trace("integrating mongo in newrelic")
 
-		options.SetMonitor(nrmongo.NewCommandMonitor(nil))
+		options.SetMonitor(nrmongo.NewCommandMonitor(options.Monitor))
 
 		logger.Debug("mongo successfully integrated in newrelic")
 
