@@ -25,7 +25,7 @@ func init() {
 
 	config.Add(appName, "", "application name for newrelic")
 	config.Add(license, "", "newrelic license key")
-	config.Add(enabled, false, "enables newrelic")
+	config.Add(enabled, true, "enables newrelic")
 	config.Add(tracerEnabled, false, "enables newrelic distributed tracer")
 	config.Add(labels, map[string]string{}, "newrelic labels")
 	config.Add(serverlessModeEnabled, false, "enables newrelic serverless mode")
