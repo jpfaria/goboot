@@ -33,7 +33,7 @@ require (
 	github.com/imdario/mergo v0.3.11 // indirect
 	github.com/jlaffaye/ftp v0.0.0-20200331144919-d4caf6ffcab8
 	github.com/jpfaria/logrus-redis-hook v1.0.2
-	github.com/knadh/koanf v0.9.1
+	github.com/knadh/koanf v1.0.0
 	github.com/labstack/echo/v4 v4.1.16
 	github.com/labstack/gommon v0.3.0
 	github.com/lann/builder v0.0.0-20180802200727-47ae307949d0
